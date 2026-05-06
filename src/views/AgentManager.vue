@@ -72,7 +72,7 @@ onMounted(async () => {
 .avatar-container {
     width: 100%;
     aspect-ratio: 1 / 1;
-    background-color: #333;
+    background-color: transparent;
 }
 
 .avatar-img {

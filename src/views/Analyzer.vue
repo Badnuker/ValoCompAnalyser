@@ -177,7 +177,7 @@ const removeAgent = (index: number) => {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    background-color: #333;
+    background-color: transparent;
 }
 
 .slot-empty {
