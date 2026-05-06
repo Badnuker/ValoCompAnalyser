@@ -6,8 +6,6 @@ use models::{Agent, AppState, Tag};
 use std::time::{SystemTime, UNIX_EPOCH};
 use tauri::{LogicalSize, Manager, State};
 
-// --- 读取 API ---
-
 #[tauri::command]
 fn get_tags(state: State<AppState>) -> Vec<Tag> {
     state.tags.lock().unwrap().clone()
@@ -18,26 +16,20 @@ fn get_agents(state: State<AppState>) -> Vec<Agent> {
     state.agents.lock().unwrap().clone()
 }
 
-// --- 写入 API ---
-
-// 切换标签的 Key 属性
 #[tauri::command]
 fn toggle_tag_key(id: String, state: State<AppState>) -> Result<(), String> {
-    let mut tags = state.tags.lock().unwrap(); // 获取写锁
+    let mut tags = state.tags.lock().unwrap();
     if let Some(tag) = tags.iter_mut().find(|t| t.id == id) {
-        tag.is_key = !tag.is_key; // 取反
+        tag.is_key = !tag.is_key;
         Ok(())
     } else {
         Err("未找到该标签".into())
     }
 }
 
-// 添加自定义标签
 #[tauri::command]
 fn add_tag(name: String, is_key: bool, state: State<AppState>) -> Result<Tag, String> {
     let mut tags = state.tags.lock().unwrap();
-
-    // 生成一个唯一 ID：用当前时间的时间戳
     let timestamp = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .unwrap()
@@ -45,9 +37,26 @@ fn add_tag(name: String, is_key: bool, state: State<AppState>) -> Result<Tag, St
     let id = format!("t_custom_{}", timestamp);
 
     let new_tag = Tag { id, name, is_key };
+    tags.push(new_tag.clone());
+    Ok(new_tag)
+}
 
-    tags.push(new_tag.clone()); // 存入后端内存
-    Ok(new_tag) // 把新创建的标签返回给前端
+// 新增：删除标签
+#[tauri::command]
+fn delete_tag(id: String, state: State<AppState>) -> Result<(), String> {
+    // 1. 从标签库中删除
+    {
+        let mut tags = state.tags.lock().unwrap();
+        tags.retain(|t| t.id != id);
+    }
+    // 2. 从所有角色身上剥离该标签，防止数据残留
+    {
+        let mut agents = state.agents.lock().unwrap();
+        for agent in agents.iter_mut() {
+            agent.tags.retain(|tag_id| tag_id != &id);
+        }
+    }
+    Ok(())
 }
 
 fn main() {
@@ -65,11 +74,13 @@ fn main() {
             Ok(())
         })
         .manage(AppState::new())
+        // 注册 delete_tag
         .invoke_handler(tauri::generate_handler![
             get_tags,
             get_agents,
             toggle_tag_key,
-            add_tag
+            add_tag,
+            delete_tag
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

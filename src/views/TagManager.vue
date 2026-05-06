@@ -7,7 +7,6 @@ import type { Tag } from '../types';
 const { t, te } = useI18n();
 const tags = ref<Tag[]>([]);
 
-// 表单状态
 const newTagName = ref('');
 const newTagIsKey = ref(false);
 
@@ -24,12 +23,9 @@ const getTagName = (tag: Tag) => {
     return te(i18nKey) ? t(i18nKey) : tag.name;
 };
 
-// 交互：切换关键标签属性
 const toggleKey = async (tag: Tag) => {
     try {
-        // 1. 调用后端接口修改数据
         await invoke('toggle_tag_key', { id: tag.id });
-        // 2. 前端本地状态同步更新（避免重新请求整个列表，提升性能）
         tag.is_key = !tag.is_key;
     } catch (error) {
         console.error("切换失败:", error);
@@ -37,30 +33,35 @@ const toggleKey = async (tag: Tag) => {
     }
 };
 
-// 交互：新增标签
 const addNewTag = async () => {
     const name = newTagName.value.trim();
     if (!name) {
         alert("标签名称不能为空！");
         return;
     }
-
     try {
-        // 调用后端接口
-        const newTag = await invoke<Tag>('add_tag', {
-            name: name,
-            isKey: newTagIsKey.value
-        });
-
-        // 将后端返回的新标签推入前端列表
+        const newTag = await invoke<Tag>('add_tag', { name, isKey: newTagIsKey.value });
         tags.value.push(newTag);
-
-        // 清空表单
         newTagName.value = '';
         newTagIsKey.value = false;
     } catch (error) {
         console.error("添加失败:", error);
         alert("添加标签失败！");
+    }
+};
+
+// 新增：删除标签逻辑
+const removeTag = async (id: string) => {
+    // 加一个确认弹窗防误触
+    if (!confirm("确定要删除这个标签吗？角色身上的该标签也会被一并移除。")) return;
+
+    try {
+        await invoke('delete_tag', { id });
+        // 前端同步移除
+        tags.value = tags.value.filter(t => t.id !== id);
+    } catch (error) {
+        console.error("删除失败:", error);
+        alert("删除标签失败！");
     }
 };
 </script>
@@ -69,7 +70,6 @@ const addNewTag = async () => {
     <div class="page">
         <h2>{{ $t('ui.nav_tags') }}</h2>
 
-        <!-- 新增标签控制台 -->
         <div class="add-tag-panel">
             <input v-model="newTagName" type="text" class="input-name" placeholder="输入自定义标签名称..."
                 @keyup.enter="addNewTag" />
@@ -80,23 +80,24 @@ const addNewTag = async () => {
             <button class="btn-add" @click="addNewTag">{{ $t('ui.btn_add') }}</button>
         </div>
 
-        <!-- 标签列表 -->
         <div class="tag-list">
             <div v-for="tag in tags" :key="tag.id" class="tag-item">
                 <span class="tag-name">{{ getTagName(tag) }}</span>
 
-                <!-- 变成可点击的 Toggle 按钮 -->
-                <button class="badge-btn" :class="tag.is_key ? 'key-badge' : 'normal-badge'" @click="toggleKey(tag)"
-                    title="点击切换状态">
-                    {{ tag.is_key ? 'Key' : 'Normal' }}
-                </button>
+                <div class="actions">
+                    <button class="badge-btn" :class="tag.is_key ? 'key-badge' : 'normal-badge'" @click="toggleKey(tag)"
+                        title="点击切换状态">
+                        {{ tag.is_key ? 'Key' : 'Normal' }}
+                    </button>
+                    <!-- 新增删除按钮 -->
+                    <button class="delete-btn" @click="removeTag(tag.id)" title="删除标签">×</button>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-/* 新增控制台样式 */
 .add-tag-panel {
     display: flex;
     align-items: center;
@@ -142,7 +143,6 @@ const addNewTag = async () => {
     background-color: #ff4655;
 }
 
-/* 列表样式 */
 .tag-list {
     display: flex;
     flex-direction: column;
@@ -170,7 +170,12 @@ const addNewTag = async () => {
     font-size: 1rem;
 }
 
-/* 可点击徽章样式 */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 .badge-btn {
     font-size: 0.8rem;
     padding: 4px 12px;
@@ -199,5 +204,23 @@ const addNewTag = async () => {
 .normal-badge {
     background-color: #ccc;
     color: #333;
+}
+
+/* 删除按钮样式 */
+.delete-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 5px;
+    border-radius: 4px;
+    transition: 0.2s;
+}
+
+.delete-btn:hover {
+    color: #ff4655;
+    background: #ffeeee;
 }
 </style>
