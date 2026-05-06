@@ -51,7 +51,6 @@ const openSelector = (index: number) => {
     showSelector.value = true;
 };
 
-// 判断角色是否已被选中
 const isAgentSelected = (agent: Agent) => {
     return selectedAgents.value.some(a => a && a.id === agent.id);
 };
@@ -75,9 +74,9 @@ const removeAgent = (index: number) => {
         <!-- 顶部：5个选人槽位 -->
         <div class="slots-container">
             <div v-for="(agent, index) in selectedAgents" :key="index" class="agent-slot"
-                @click="!agent && openSelector(index)" @contextmenu.prevent="agent && removeAgent(index)">
+                :class="{ 'is-filled': agent }" @click="!agent && openSelector(index)"
+                @contextmenu.prevent="agent && removeAgent(index)">
                 <template v-if="agent">
-                    <!-- 角色头像 -->
                     <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" />
                 </template>
                 <template v-else>
@@ -125,7 +124,6 @@ const removeAgent = (index: number) => {
             <div class="modal-content" @click.stop>
                 <h3>选择角色</h3>
                 <div class="agent-grid">
-                    <!-- 遍历角色，如果是已选中的，则添加 disabled 类 -->
                     <div v-for="agent in allAgents" :key="agent.id" class="selector-card"
                         :class="{ 'is-disabled': isAgentSelected(agent) }" @click="selectAgent(agent)">
                         <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" />
@@ -144,41 +142,51 @@ const removeAgent = (index: number) => {
     gap: 1.5rem;
 }
 
-/* 槽位样式 */
 .slots-container {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 12px;
+    width: 100%;
 }
 
 .agent-slot {
-    flex: 1;
+    width: 100%;
+    aspect-ratio: 1 / 1;
     border: 2px dashed #ccc;
     border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
     position: relative;
+    cursor: pointer;
     transition: 0.2s;
     background: #fdfdfd;
     overflow: hidden;
 }
 
-.agent-slot:hover {
+.agent-slot.is-filled {
+    border-color: transparent;
+    background: transparent;
+}
+
+.agent-slot:hover:not(.is-filled) {
     border-color: #ff4655;
 }
 
-.slot-empty {
-    font-size: 2rem;
-    color: #ccc;
-}
-
 .avatar-img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     background-color: #333;
+}
+
+.slot-empty {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    color: #ccc;
 }
 
 .tip-text {
@@ -288,12 +296,13 @@ const removeAgent = (index: number) => {
 
 .agent-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
     margin-bottom: 20px;
 }
 
 .selector-card {
+    width: 100%;
     aspect-ratio: 1 / 1;
     background: #f5f5f5;
     border-radius: 8px;
@@ -301,6 +310,7 @@ const removeAgent = (index: number) => {
     overflow: hidden;
     border: 2px solid transparent;
     transition: all 0.2s;
+    position: relative;
 }
 
 .selector-card:hover:not(.is-disabled) {
