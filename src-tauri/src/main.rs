@@ -41,7 +41,6 @@ fn add_tag(name: String, is_key: bool, state: State<AppState>) -> Result<Tag, St
     Ok(new_tag)
 }
 
-// 新增：删除标签
 #[tauri::command]
 fn delete_tag(id: String, state: State<AppState>) -> Result<(), String> {
     // 1. 从标签库中删除
@@ -57,6 +56,21 @@ fn delete_tag(id: String, state: State<AppState>) -> Result<(), String> {
         }
     }
     Ok(())
+}
+
+#[tauri::command]
+fn update_agent_tags(
+    agent_id: String,
+    new_tags: Vec<String>,
+    state: State<AppState>,
+) -> Result<(), String> {
+    let mut agents = state.agents.lock().unwrap();
+    if let Some(agent) = agents.iter_mut().find(|a| a.id == agent_id) {
+        agent.tags = new_tags;
+        Ok(())
+    } else {
+        Err("未找到该角色".into())
+    }
 }
 
 fn main() {
@@ -80,7 +94,8 @@ fn main() {
             get_agents,
             toggle_tag_key,
             add_tag,
-            delete_tag
+            delete_tag,
+            update_agent_tags
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
