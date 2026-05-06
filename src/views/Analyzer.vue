@@ -292,13 +292,33 @@ const removeAgent = (index: number) => {
     border-radius: 12px;
     width: 90%;
     max-width: 450px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .agent-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
     gap: 12px;
     margin-bottom: 20px;
+    overflow-y: auto;
+    max-height: min(56vh, 480px);
+    padding-right: 4px;
+    align-content: start;
+}
+
+.agent-grid::-webkit-scrollbar {
+    width: 6px;
+}
+
+.agent-grid::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.agent-grid::-webkit-scrollbar-thumb:hover {
+    background: #999;
 }
 
 .selector-card {
