@@ -10,8 +10,10 @@ This template should help get you started developing with Vue 3 and TypeScript i
 
 ## tag list:
 
-- `防 rush`(key)
+- `抗点`(key)
 - `伤害`
+- `进点`(key)
+- `短烟`
 - `信息`(key)
-- `位移`(key)
-- `烟雾`(key)
+- `长烟`(key)
+- `位移`
