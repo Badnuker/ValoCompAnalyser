@@ -112,19 +112,20 @@ const saveAgentTags = async () => {
 /* 网格与卡片样式 (与之前相同) */
 .agent-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 15px;
 }
 
 @media (max-width: 768px) {
     .agent-grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
     }
 }
 
 @media (max-width: 500px) {
     .agent-grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
     }
 }
 
@@ -172,6 +173,7 @@ const saveAgentTags = async () => {
     font-weight: bold;
     margin-bottom: 8px;
     color: #333;
+    word-break: break-word;
 }
 
 .agent-tags {
@@ -209,13 +211,33 @@ const saveAgentTags = async () => {
     border-radius: 12px;
     width: 90%;
     max-width: 450px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .tag-selector {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
-    margin: 20px 0;
+    margin: 12px 0 16px;
+    overflow-y: auto;
+    max-height: min(46vh, 320px);
+    padding-right: 4px;
+    align-content: flex-start;
+}
+
+.tag-selector::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tag-selector::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.tag-selector::-webkit-scrollbar-thumb:hover {
+    background: #999;
 }
 
 .tag-option {
@@ -242,7 +264,8 @@ const saveAgentTags = async () => {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: auto;
+    padding-top: 8px;
 }
 
 .btn-cancel,
@@ -270,5 +293,36 @@ const saveAgentTags = async () => {
 
 .btn-save:hover {
     background: #ff4655;
+}
+
+@media (max-width: 560px) {
+    .agent-info {
+        padding: 8px;
+    }
+
+    .agent-name {
+        font-size: 0.82rem;
+        margin-bottom: 6px;
+    }
+
+    .agent-tag-id {
+        font-size: 0.68rem;
+    }
+
+    .modal-content {
+        width: 94%;
+        padding: 14px;
+        border-radius: 10px;
+    }
+
+    .modal-actions {
+        gap: 8px;
+    }
+
+    .btn-cancel,
+    .btn-save {
+        flex: 1;
+        padding: 10px 12px;
+    }
 }
 </style>

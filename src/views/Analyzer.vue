@@ -144,9 +144,16 @@ const removeAgent = (index: number) => {
 
 .slots-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
     width: 100%;
+}
+
+@media (max-width: 620px) {
+    .slots-container {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 8px;
+    }
 }
 
 .agent-slot {
@@ -284,14 +291,15 @@ const removeAgent = (index: number) => {
     align-items: center;
     justify-content: center;
     z-index: 100;
+    padding: 16px;
 }
 
 .modal-content {
     background: white;
     padding: 20px;
     border-radius: 12px;
-    width: 90%;
-    max-width: 450px;
+    width: min(92vw, 980px);
+    max-width: 980px;
     max-height: 85vh;
     display: flex;
     flex-direction: column;
@@ -299,13 +307,32 @@ const removeAgent = (index: number) => {
 
 .agent-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
-    gap: 12px;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
     margin-bottom: 20px;
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: min(56vh, 480px);
     padding-right: 4px;
     align-content: start;
+}
+
+@media (max-width: 1100px) {
+    .agent-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 820px) {
+    .agent-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .agent-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 .agent-grid::-webkit-scrollbar {
@@ -335,7 +362,7 @@ const removeAgent = (index: number) => {
 
 .selector-card:hover:not(.is-disabled) {
     border-color: #ff4655;
-    transform: scale(1.05);
+    transform: translateY(-2px);
 }
 
 .selector-card.is-disabled {
@@ -356,5 +383,47 @@ const removeAgent = (index: number) => {
 
 .close-btn:hover {
     background: #e0e0e0;
+}
+
+@media (max-width: 560px) {
+    .analyzer-page {
+        gap: 1rem;
+    }
+
+    .tip-text {
+        margin-top: -4px;
+    }
+
+    .slots-container {
+        gap: 6px;
+    }
+
+    .slot-empty {
+        font-size: 1.6rem;
+    }
+
+    .panel {
+        padding: 12px;
+    }
+
+    .panel h3 {
+        font-size: 0.95rem;
+        margin-bottom: 10px;
+    }
+
+    .analysis-tag {
+        font-size: 0.8rem;
+        padding: 4px 8px;
+    }
+
+    .modal-content {
+        width: 96vw;
+        padding: 14px;
+        border-radius: 10px;
+    }
+
+    .close-btn {
+        padding: 10px;
+    }
 }
 </style>

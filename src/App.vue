@@ -91,6 +91,8 @@ body {
   display: flex;
   gap: 20px;
   align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .nav-item {
@@ -127,6 +129,7 @@ body {
   transform: translateY(-50%);
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .config-btn {
@@ -178,6 +181,48 @@ body {
     transform: none;
     justify-content: center;
     margin-top: 15px;
+  }
+
+  .main-content {
+    margin: 12px auto;
+    padding: 14px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 560px) {
+  .navbar {
+    padding: 12px 10px;
+  }
+
+  .nav-links {
+    gap: 8px;
+  }
+
+  .nav-item {
+    padding: 6px 10px;
+    font-size: 0.9rem;
+  }
+
+  .nav-main {
+    font-size: 1rem;
+  }
+
+  .config-actions {
+    width: 100%;
+    gap: 6px;
+  }
+
+  .config-btn {
+    flex: 1 1 calc(33.33% - 6px);
+    min-width: 90px;
+    text-align: center;
+  }
+
+  .main-content {
+    margin: 8px auto;
+    padding: 12px;
+    border-radius: 8px;
   }
 }
 </style>
