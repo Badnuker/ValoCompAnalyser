@@ -1,4 +1,6 @@
 use serde::{Deserialize, Serialize};
+use std::fs;
+use std::path::PathBuf;
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Tag {
@@ -15,15 +17,35 @@ pub struct Agent {
     pub tags: Vec<String>,
 }
 
+// 用于序列化到文件的结构体
+#[derive(Serialize, Deserialize)]
+struct AppData {
+    tags: Vec<Tag>,
+    agents: Vec<Agent>,
+}
+
 // 全局状态，用于在程序运行时保存在内存中
 pub struct AppState {
     pub tags: std::sync::Mutex<Vec<Tag>>,
     pub agents: std::sync::Mutex<Vec<Agent>>,
+    pub save_path: PathBuf, // 记录保存文件的路径
 }
 
 impl AppState {
-    pub fn new() -> Self {
-        // 1. 预设标签
+    // 启动时读取本地文件，如果不存在则使用默认数据
+    pub fn load_or_default(path: PathBuf) -> Self {
+        // 尝试读取文件
+        if let Ok(content) = fs::read_to_string(&path) {
+            if let Ok(data) = serde_json::from_str::<AppData>(&content) {
+                return Self {
+                    tags: std::sync::Mutex::new(data.tags),
+                    agents: std::sync::Mutex::new(data.agents),
+                    save_path: path,
+                };
+            }
+        }
+
+        // 如果文件不存在或解析失败，使用你设置的默认数据
         let tags = vec![
             Tag {
                 id: "t_anti_rush".into(),
@@ -84,9 +106,26 @@ impl AppState {
             },
         ];
 
-        Self {
+        let state = Self {
             tags: std::sync::Mutex::new(tags),
             agents: std::sync::Mutex::new(agents),
+            save_path: path,
+        };
+
+        // 第一次生成默认数据后，顺手保存一份到本地
+        state.save();
+        state
+    }
+
+    // 将当前内存中的数据写入本地文件
+    pub fn save(&self) {
+        let data = AppData {
+            tags: self.tags.lock().unwrap().clone(),
+            agents: self.agents.lock().unwrap().clone(),
+        };
+        // 格式化为 JSON 字符串并写入
+        if let Ok(json) = serde_json::to_string_pretty(&data) {
+            let _ = fs::write(&self.save_path, json);
         }
     }
 }
