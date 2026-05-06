@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import LanguageSwitcher from './components/LanguageSwitcher.vue';
 import { invoke } from '@tauri-apps/api/core';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n({ useScope: 'global' });
 
 const exportConfig = async () => {
   try {
@@ -7,7 +11,7 @@ const exportConfig = async () => {
     // 如果没有报错，说明用户成功保存了（或者正常取消了）
   } catch (error) {
     if (error !== "用户取消了导出") {
-      alert("导出失败：" + error);
+      alert(t('ui.alert_export_failed', { error }));
     }
   }
 };
@@ -15,23 +19,23 @@ const exportConfig = async () => {
 const importConfig = async () => {
   try {
     await invoke('import_data');
-    alert("导入成功！程序将刷新以应用新配置。");
+    alert(t('ui.alert_import_success'));
     window.location.reload();
   } catch (error) {
     if (error !== "用户取消了导入") {
-      alert("导入失败：" + error);
+      alert(t('ui.alert_import_failed', { error }));
     }
   }
 };
 
 const resetConfig = async () => {
-  if (confirm("危险操作 ⚠️\n这将会清除你所有的自定义标签和改动，恢复到初始默认状态。确定要继续吗？")) {
+  if (confirm(t('ui.confirm_reset_config'))) {
     try {
       await invoke('reset_data');
-      alert("已恢复默认配置！");
+      alert(t('ui.alert_reset_success'));
       window.location.reload();
     } catch (error) {
-      alert("重置失败：" + error);
+      alert(t('ui.alert_reset_failed', { error }));
     }
   }
 };
@@ -41,15 +45,19 @@ const resetConfig = async () => {
   <div class="app-container">
     <nav class="navbar">
       <div class="nav-links">
-        <router-link to="/tags" class="nav-item">{{ $t('ui.nav_tags') }}</router-link>
-        <router-link to="/" class="nav-item nav-main">{{ $t('ui.nav_main') }}</router-link>
-        <router-link to="/agents" class="nav-item">{{ $t('ui.nav_agents') }}</router-link>
+        <router-link to="/tags" class="nav-item">{{ t('ui.nav_tags') }}</router-link>
+        <router-link to="/" class="nav-item nav-main">{{ t('ui.nav_main') }}</router-link>
+        <router-link to="/agents" class="nav-item">{{ t('ui.nav_agents') }}</router-link>
       </div>
 
       <div class="config-actions">
-        <button class="config-btn" @click="importConfig" title="导入配置文件">📥 导入</button>
-        <button class="config-btn" @click="exportConfig" title="导出配置文件">📤 导出</button>
-        <button class="config-btn reset-btn" @click="resetConfig" title="恢复默认配置">🔄 重置</button>
+        <LanguageSwitcher />
+        <button class="config-btn" @click="importConfig" :title="t('ui.title_import_config')">📥 {{
+          t('ui.import_config') }}</button>
+        <button class="config-btn" @click="exportConfig" :title="t('ui.title_export_config')">📤 {{
+          t('ui.export_config') }}</button>
+        <button class="config-btn reset-btn" @click="resetConfig" :title="t('ui.title_reset_config')">🔄 {{
+          t('ui.reset_config') }}</button>
       </div>
     </nav>
 
@@ -130,6 +138,7 @@ body {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .config-btn {
@@ -181,6 +190,7 @@ body {
     transform: none;
     justify-content: center;
     margin-top: 15px;
+    width: 100%;
   }
 
   .main-content {
@@ -217,6 +227,12 @@ body {
     flex: 1 1 calc(33.33% - 6px);
     min-width: 90px;
     text-align: center;
+  }
+
+  .config-actions :deep(.language-switcher) {
+    flex: 1 1 100%;
+    display: flex;
+    justify-content: center;
   }
 
   .main-content {

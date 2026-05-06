@@ -2,11 +2,11 @@
 import { useI18n } from 'vue-i18n';
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 
-const { locale } = useI18n({ useScope: 'global' });
+const { locale, t } = useI18n({ useScope: 'global' });
 
 const langs = [
-    { code: 'zh', label: '中文' },
-    { code: 'en', label: 'English' },
+    { code: 'zh', labelKey: 'ui.locale_zh' },
+    { code: 'en', labelKey: 'ui.locale_en' },
 ];
 
 function normalize(code: string | undefined) {
@@ -22,6 +22,8 @@ const rootRef = ref<HTMLElement | null>(null);
 const currentLang = computed(() => {
     return langs.find((l) => l.code === normalize(locale.value)) || langs[1];
 });
+
+const currentLangLabel = computed(() => t(currentLang.value.labelKey));
 
 function toggle() {
     open.value = !open.value;
@@ -73,7 +75,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick));
                     </g>
                 </svg>
             </span>
-            <span class="ls-label">{{ currentLang.label }}</span>
+            <span class="ls-label">{{ currentLangLabel }}</span>
             <span class="ls-caret">▾</span>
         </button>
 
@@ -99,7 +101,7 @@ onBeforeUnmount(() => document.removeEventListener('click', onDocClick));
                         </g>
                     </svg>
                 </span>
-                <span class="ls-item-label">{{ l.label }}</span>
+                <span class="ls-item-label">{{ t(l.labelKey) }}</span>
             </li>
         </ul>
     </div>

@@ -61,7 +61,7 @@ const removeTag = async (id: string) => {
         tags.value = tags.value.filter(t => t.id !== id);
     } catch (error) {
         console.error("删除失败:", error);
-        alert("删除标签失败！");
+        alert(t('ui.alert_delete_tag_failed'));
     }
 };
 </script>

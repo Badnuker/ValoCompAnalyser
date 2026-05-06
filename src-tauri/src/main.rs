@@ -160,6 +160,7 @@ fn main() {
     tauri::Builder::default()
         .setup(|app| {
             let window = app.get_webview_window("main").unwrap();
+            let _ = window.set_title("ValoCompAnalyser");
             if let Ok(Some(monitor)) = window.primary_monitor() {
                 let size = monitor.size();
                 let scale_factor = monitor.scale_factor();
