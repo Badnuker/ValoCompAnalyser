@@ -74,7 +74,7 @@ impl AppState {
                 id: "a_omen".into(),
                 name: "幽影 (Omen)".into(),
                 avatar_url: "/avatars/omen.png".into(),
-                tags: vec!["t_long_smoke".into(), "t_tp".into()],
+                tags: vec!["t_anti_rush".into(), "t_long_smoke".into(), "t_tp".into()],
             },
             Agent {
                 id: "a_sova".into(),
