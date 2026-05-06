@@ -68,13 +68,13 @@ impl AppState {
                 id: "a_jett".into(),
                 name: "捷风 (Jett)".into(),
                 avatar_url: "/avatars/jett.png".into(),
-                tags: vec!["t_dash".into(), "t_fast_smoke".into()],
+                tags: vec!["t_dash".into(), "t_short_smoke".into()],
             },
             Agent {
                 id: "a_omen".into(),
                 name: "幽影 (Omen)".into(),
                 avatar_url: "/avatars/omen.png".into(),
-                tags: vec!["t_slow_smoke".into(), "t_tp".into()],
+                tags: vec!["t_long_smoke".into(), "t_tp".into()],
             },
             Agent {
                 id: "a_sova".into(),
