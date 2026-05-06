@@ -18,9 +18,9 @@ pub struct Agent {
 }
 
 #[derive(Serialize, Deserialize)]
-struct AppData {
-    tags: Vec<Tag>,
-    agents: Vec<Agent>,
+pub struct AppData {
+    pub tags: Vec<Tag>,
+    pub agents: Vec<Agent>,
 }
 
 pub struct AppState {
@@ -30,18 +30,9 @@ pub struct AppState {
 }
 
 impl AppState {
-    pub fn load_or_default(path: PathBuf) -> Self {
-        if let Ok(content) = fs::read_to_string(&path) {
-            if let Ok(data) = serde_json::from_str::<AppData>(&content) {
-                return Self {
-                    tags: std::sync::Mutex::new(data.tags),
-                    agents: std::sync::Mutex::new(data.agents),
-                    save_path: path,
-                };
-            }
-        }
-
+    pub fn get_default_data() -> AppData {
         let tags = vec![
+            // 职业标签
             Tag {
                 id: "t_duelist".into(),
                 name: "决斗".into(),
@@ -62,7 +53,7 @@ impl AppState {
                 name: "哨卫".into(),
                 is_key: true,
             },
-            // 战术功能标签
+            // 功能标签
             Tag {
                 id: "t_anti_rush".into(),
                 name: "抗点".into(),
@@ -100,7 +91,6 @@ impl AppState {
             },
         ];
 
-        // 2. 预设角色 (全特工分类)
         let agents = vec![
             // ================= 决斗 (Duelists) =================
             Agent {
@@ -176,13 +166,13 @@ impl AppState {
             },
             Agent {
                 id: "a_harbor".into(),
-                name: "哈泊 (Harbor)".into(),
+                name: "禁灭 (Harbor)".into(),
                 avatar_url: "/avatars/Harbor_icon.png".into(),
                 tags: vec!["t_controller".into(), "t_long_smoke".into()],
             },
             Agent {
                 id: "a_clove".into(),
-                name: "珂乐芙 (Clove)".into(),
+                name: "暮蝶 (Clove)".into(),
                 avatar_url: "/avatars/Clove_icon.png".into(),
                 tags: vec!["t_controller".into(), "t_long_smoke".into()],
             },
@@ -207,7 +197,7 @@ impl AppState {
             },
             Agent {
                 id: "a_kayo".into(),
-                name: "KAY/O".into(),
+                name: "K/O (KAY/O)".into(),
                 avatar_url: "/avatars/KAYO_icon.png".into(),
                 tags: vec!["t_initiator".into(), "t_info".into(), "t_anti_rush".into()],
             },
@@ -219,7 +209,7 @@ impl AppState {
             },
             Agent {
                 id: "a_gekko".into(),
-                name: "盖柯 (Gekko)".into(),
+                name: "盖可 (Gekko)".into(),
                 avatar_url: "/avatars/Gekko_icon.png".into(),
                 tags: vec!["t_initiator".into(), "t_info".into()],
             },
@@ -250,7 +240,7 @@ impl AppState {
             },
             Agent {
                 id: "a_deadlock".into(),
-                name: "死锁 (Deadlock)".into(),
+                name: "钢索 (Deadlock)".into(),
                 avatar_url: "/avatars/Deadlock_icon.png".into(),
                 tags: vec!["t_sentinel".into(), "t_anti_rush".into()],
             },
@@ -262,9 +252,24 @@ impl AppState {
             },
         ];
 
+        AppData { tags, agents }
+    }
+
+    pub fn load_or_default(path: PathBuf) -> Self {
+        if let Ok(content) = fs::read_to_string(&path) {
+            if let Ok(data) = serde_json::from_str::<AppData>(&content) {
+                return Self {
+                    tags: std::sync::Mutex::new(data.tags),
+                    agents: std::sync::Mutex::new(data.agents),
+                    save_path: path,
+                };
+            }
+        }
+
+        let default_data = Self::get_default_data();
         let state = Self {
-            tags: std::sync::Mutex::new(tags),
-            agents: std::sync::Mutex::new(agents),
+            tags: std::sync::Mutex::new(default_data.tags),
+            agents: std::sync::Mutex::new(default_data.agents),
             save_path: path,
         };
 

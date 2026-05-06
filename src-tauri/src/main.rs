@@ -2,7 +2,7 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod models;
-use models::{Agent, AppState, Tag};
+use models::{Agent, AppData, AppState, Tag};
 use std::fs;
 use std::time::{SystemTime, UNIX_EPOCH};
 use tauri::{LogicalSize, Manager, State};
@@ -83,6 +83,64 @@ fn update_agent_tags(
     Ok(())
 }
 
+#[tauri::command]
+async fn export_data(state: State<'_, AppState>) -> Result<(), String> {
+    // 打开系统的“另存为”弹窗
+    if let Some(path) = rfd::FileDialog::new()
+        .set_file_name("valo_comp_config.json")
+        .add_filter("JSON 文件", &["json"])
+        .save_file()
+    {
+        // 获取当前数据
+        let data = AppData {
+            tags: state.tags.lock().unwrap().clone(),
+            agents: state.agents.lock().unwrap().clone(),
+        };
+        // 转为 JSON 并写入用户指定的路径
+        let json_str = serde_json::to_string_pretty(&data).map_err(|e| e.to_string())?;
+        std::fs::write(path, json_str).map_err(|e| format!("写入文件失败: {}", e))?;
+        Ok(())
+    } else {
+        Err("用户取消了导出".into())
+    }
+}
+
+// 导入配置：接收前端传来的 JSON 字符串并覆写内存，然后保存
+#[tauri::command]
+async fn import_data(state: State<'_, AppState>) -> Result<(), String> {
+    // 打开系统的“选择文件”弹窗
+    if let Some(path) = rfd::FileDialog::new()
+        .add_filter("JSON 文件", &["json"])
+        .pick_file()
+    {
+        // 读取用户选择的文件
+        let json_str = std::fs::read_to_string(path).map_err(|e| format!("读取文件失败: {}", e))?;
+        let parsed: AppData =
+            serde_json::from_str(&json_str).map_err(|e| format!("文件格式不正确: {}", e))?;
+
+        // 覆盖当前内存数据
+        *state.tags.lock().unwrap() = parsed.tags;
+        *state.agents.lock().unwrap() = parsed.agents;
+
+        state.save(); // 保存到程序的持久化目录
+        Ok(())
+    } else {
+        Err("用户取消了导入".into())
+    }
+}
+
+// 重置配置：恢复为代码中写死的默认列表
+#[tauri::command]
+fn reset_data(state: State<AppState>) -> Result<(), String> {
+    let default_data = AppState::get_default_data();
+
+    *state.tags.lock().unwrap() = default_data.tags;
+    *state.agents.lock().unwrap() = default_data.agents;
+
+    state.save();
+    Ok(())
+}
+
 fn main() {
     tauri::Builder::default()
         .setup(|app| {
@@ -115,7 +173,10 @@ fn main() {
             toggle_tag_key,
             add_tag,
             delete_tag,
-            update_agent_tags
+            update_agent_tags,
+            export_data,
+            import_data,
+            reset_data
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
