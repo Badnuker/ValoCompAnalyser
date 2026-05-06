@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import LanguageSwitcher from './components/LanguageSwitcher.vue';
 </script>
 
 <template>
@@ -14,6 +15,9 @@
 
         <!-- 角色管理 -->
         <router-link to="/agents" class="nav-item">{{ $t('ui.nav_agents') }}</router-link>
+      </div>
+      <div class="nav-extra">
+        <LanguageSwitcher />
       </div>
     </nav>
 
@@ -43,6 +47,10 @@ body {
   background-color: #ffffff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   padding: 1rem 0;
+}
+
+.navbar {
+  position: relative;
 }
 
 .nav-links {
@@ -115,5 +123,12 @@ body {
   .page {
     padding: 1rem;
   }
+}
+
+.nav-extra {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
 }
 </style>

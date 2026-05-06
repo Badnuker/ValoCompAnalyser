@@ -55,7 +55,7 @@ const saveAgentTags = async () => {
         editingAgent.value = null; // 关闭弹窗
     } catch (error) {
         console.error("保存失败:", error);
-        alert("保存角色标签失败！");
+        alert(t('ui.alert_save_agent_failed'));
     }
 };
 </script>
@@ -63,7 +63,7 @@ const saveAgentTags = async () => {
 <template>
     <div class="page">
         <h2>{{ $t('ui.nav_agents') }}</h2>
-        <p class="tip-text">点击角色卡片修改Ta拥有的标签</p>
+        <p class="tip-text">{{ $t('ui.tip_click_agent_card') }}</p>
 
         <div class="agent-grid">
             <div v-for="agent in agents" :key="agent.id" class="agent-card" @click="openEditModal(agent)">
@@ -84,7 +84,7 @@ const saveAgentTags = async () => {
         <!-- 编辑角色标签的弹窗 -->
         <div v-if="editingAgent" class="modal-overlay" @click="editingAgent = null">
             <div class="modal-content" @click.stop>
-                <h3>编辑 {{ $t(`agents.${editingAgent.id}`) }} 的标签</h3>
+                <h3>{{ $t('ui.edit_agent_tags', { name: $t(`agents.${editingAgent.id}`) }) }}</h3>
 
                 <div class="tag-selector">
                     <div v-for="tag in allTags" :key="tag.id" class="tag-option"
@@ -94,8 +94,8 @@ const saveAgentTags = async () => {
                 </div>
 
                 <div class="modal-actions">
-                    <button class="btn-cancel" @click="editingAgent = null">取消</button>
-                    <button class="btn-save" @click="saveAgentTags">保存修改</button>
+                    <button class="btn-cancel" @click="editingAgent = null">{{ $t('ui.btn_cancel') }}</button>
+                    <button class="btn-save" @click="saveAgentTags">{{ $t('ui.btn_save') }}</button>
                 </div>
             </div>
         </div>

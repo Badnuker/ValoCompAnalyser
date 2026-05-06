@@ -5,6 +5,24 @@ export default {
         nav_agents: "Agents",
         nav_main: "Analyzer",
         btn_add: "Add",
+        placeholder_new_tag: "Enter custom tag name...",
+        label_key: "Key Tag",
+        title_toggle_tag: "Toggle tag state",
+        title_delete_tag: "Delete tag",
+        key_short: "Key",
+        normal_short: "Normal",
+        alert_toggle_failed: "Failed to toggle tag state.",
+        alert_tag_name_required: "Tag name cannot be empty.",
+        alert_add_tag_failed: "Failed to add tag.",
+        confirm_delete_tag: "Are you sure you want to delete this tag? It will be removed from agents as well.",
+        tip_click_agent_card: "Click an agent card to edit their tags",
+        edit_agent_tags: "Edit {name}'s tags",
+        btn_cancel: "Cancel",
+        btn_save: "Save",
+        alert_save_agent_failed: "Failed to save agent tags.",
+        tip_select_agent: "Left-click [+] to choose an agent, right-click avatar to remove",
+        none: "None",
+        empty: "Empty",
     },
     tags: {
         t_anti_rush: "Anti-Rush",
@@ -19,5 +37,12 @@ export default {
         a_jett: "Jett",
         a_omen: "Omen",
         a_sova: "Sova",
+    }
+    ,
+    analyzer: {
+        missing_key_tags: "Missing key tags",
+        present_key_tags: "Present key tags",
+        present_normal_tags: "Present normal tags",
+        select_agent: "Select agent",
     }
 };

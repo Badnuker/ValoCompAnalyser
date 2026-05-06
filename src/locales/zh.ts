@@ -5,6 +5,24 @@ export default {
         nav_agents: "角色管理",
         nav_main: "阵容分析",
         btn_add: "添加",
+        placeholder_new_tag: "输入自定义标签名称...",
+        label_key: "关键标签 (Key)",
+        title_toggle_tag: "点击切换状态",
+        title_delete_tag: "删除标签",
+        key_short: "Key",
+        normal_short: "Normal",
+        alert_toggle_failed: "切换标签状态失败！",
+        alert_tag_name_required: "标签名称不能为空！",
+        alert_add_tag_failed: "添加标签失败！",
+        confirm_delete_tag: "确定要删除这个标签吗？角色身上的该标签也会被一并移除。",
+        tip_click_agent_card: "点击角色卡片修改 Ta 拥有的标签",
+        edit_agent_tags: "编辑 {name} 的标签",
+        btn_cancel: "取消",
+        btn_save: "保存",
+        alert_save_agent_failed: "保存角色标签失败！",
+        tip_select_agent: "左键点击 [+] 选择角色，右键点击头像取消选择",
+        none: "无",
+        empty: "空",
     },
     tags: {
         t_anti_rush: "抗点",
@@ -19,5 +37,12 @@ export default {
         a_jett: "捷风 (Jett)",
         a_omen: "幽影 (Omen)",
         a_sova: "猎枭 (Sova)",
+    }
+    ,
+    analyzer: {
+        missing_key_tags: "缺失的关键标签",
+        present_key_tags: "已有的关键标签",
+        present_normal_tags: "已有的普通标签",
+        select_agent: "选择角色",
     }
 };

@@ -29,14 +29,14 @@ const toggleKey = async (tag: Tag) => {
         tag.is_key = !tag.is_key;
     } catch (error) {
         console.error("切换失败:", error);
-        alert("切换标签状态失败！");
+        alert(t('ui.alert_toggle_failed'));
     }
 };
 
 const addNewTag = async () => {
     const name = newTagName.value.trim();
     if (!name) {
-        alert("标签名称不能为空！");
+        alert(t('ui.alert_tag_name_required'));
         return;
     }
     try {
@@ -46,14 +46,14 @@ const addNewTag = async () => {
         newTagIsKey.value = false;
     } catch (error) {
         console.error("添加失败:", error);
-        alert("添加标签失败！");
+        alert(t('ui.alert_add_tag_failed'));
     }
 };
 
 // 新增：删除标签逻辑
 const removeTag = async (id: string) => {
     // 加一个确认弹窗防误触
-    if (!confirm("确定要删除这个标签吗？角色身上的该标签也会被一并移除。")) return;
+    if (!confirm(t('ui.confirm_delete_tag'))) return;
 
     try {
         await invoke('delete_tag', { id });
@@ -71,11 +71,11 @@ const removeTag = async (id: string) => {
         <h2>{{ $t('ui.nav_tags') }}</h2>
 
         <div class="add-tag-panel">
-            <input v-model="newTagName" type="text" class="input-name" placeholder="输入自定义标签名称..."
+            <input v-model="newTagName" type="text" class="input-name" :placeholder="$t('ui.placeholder_new_tag')"
                 @keyup.enter="addNewTag" />
             <label class="checkbox-label">
                 <input v-model="newTagIsKey" type="checkbox" />
-                关键标签 (Key)
+                {{ $t('ui.label_key') }}
             </label>
             <button class="btn-add" @click="addNewTag">{{ $t('ui.btn_add') }}</button>
         </div>
@@ -86,11 +86,11 @@ const removeTag = async (id: string) => {
 
                 <div class="actions">
                     <button class="badge-btn" :class="tag.is_key ? 'key-badge' : 'normal-badge'" @click="toggleKey(tag)"
-                        title="点击切换状态">
-                        {{ tag.is_key ? 'Key' : 'Normal' }}
+                        :title="$t('ui.title_toggle_tag')">
+                        {{ tag.is_key ? $t('ui.key_short') : $t('ui.normal_short') }}
                     </button>
                     <!-- 新增删除按钮 -->
-                    <button class="delete-btn" @click="removeTag(tag.id)" title="删除标签">×</button>
+                    <button class="delete-btn" @click="removeTag(tag.id)" :title="$t('ui.title_delete_tag')">×</button>
                 </div>
             </div>
         </div>

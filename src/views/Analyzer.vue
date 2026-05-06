@@ -84,14 +84,14 @@ const removeAgent = (index: number) => {
                 </template>
             </div>
         </div>
-        <div class="tip-text">左键点击 [+] 选择角色，右键点击头像取消选择</div>
+        <div class="tip-text">{{ $t('ui.tip_select_agent') }}</div>
 
         <!-- 底部：阵容分析面板 -->
         <div class="analysis-panels">
             <div class="panel warning-panel">
-                <h3>缺失的关键标签</h3>
+                <h3>{{ $t('analyzer.missing_key_tags') }}</h3>
                 <div class="tags-wrap">
-                    <span v-if="missingKeyTags.length === 0" class="perfect-text">无</span>
+                    <span v-if="missingKeyTags.length === 0" class="perfect-text">{{ $t('ui.none') }}</span>
                     <span v-for="tag in missingKeyTags" :key="tag.id" class="analysis-tag tag-missing">
                         {{ getTagName(tag.id) }}
                     </span>
@@ -99,9 +99,9 @@ const removeAgent = (index: number) => {
             </div>
 
             <div class="panel good-panel">
-                <h3>已有的关键标签</h3>
+                <h3>{{ $t('analyzer.present_key_tags') }}</h3>
                 <div class="tags-wrap">
-                    <span v-if="presentKeyTags.length === 0" class="empty-text">空</span>
+                    <span v-if="presentKeyTags.length === 0" class="empty-text">{{ $t('ui.empty') }}</span>
                     <span v-for="tag in presentKeyTags" :key="tag.id" class="analysis-tag tag-present">
                         {{ getTagName(tag.id) }}
                     </span>
@@ -109,9 +109,9 @@ const removeAgent = (index: number) => {
             </div>
 
             <div class="panel normal-panel">
-                <h3>已有的普通标签</h3>
+                <h3>{{ $t('analyzer.present_normal_tags') }}</h3>
                 <div class="tags-wrap">
-                    <span v-if="presentNormalTags.length === 0" class="empty-text">空</span>
+                    <span v-if="presentNormalTags.length === 0" class="empty-text">{{ $t('ui.empty') }}</span>
                     <span v-for="tag in presentNormalTags" :key="tag.id" class="analysis-tag tag-normal">
                         {{ getTagName(tag.id) }}
                     </span>
@@ -122,14 +122,14 @@ const removeAgent = (index: number) => {
         <!-- 弹窗：选择角色 -->
         <div v-if="showSelector" class="modal-overlay" @click="showSelector = false">
             <div class="modal-content" @click.stop>
-                <h3>选择角色</h3>
+                <h3>{{ $t('analyzer.select_agent') }}</h3>
                 <div class="agent-grid">
                     <div v-for="agent in allAgents" :key="agent.id" class="selector-card"
                         :class="{ 'is-disabled': isAgentSelected(agent) }" @click="selectAgent(agent)">
                         <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" />
                     </div>
                 </div>
-                <button class="close-btn" @click="showSelector = false">取消</button>
+                <button class="close-btn" @click="showSelector = false">{{ $t('ui.btn_cancel') }}</button>
             </div>
         </div>
     </div>
