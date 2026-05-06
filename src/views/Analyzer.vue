@@ -92,7 +92,7 @@ const removeAgent = (index: number) => {
             <div class="panel warning-panel">
                 <h3>缺失的关键标签</h3>
                 <div class="tags-wrap">
-                    <span v-if="missingKeyTags.length === 0" class="perfect-text">✅ 阵容合理</span>
+                    <span v-if="missingKeyTags.length === 0" class="perfect-text">无</span>
                     <span v-for="tag in missingKeyTags" :key="tag.id" class="analysis-tag tag-missing">
                         {{ getTagName(tag.id) }}
                     </span>
