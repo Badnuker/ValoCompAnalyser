@@ -1,160 +1,119 @@
 <script setup lang="ts">
-import { ref } from "vue";
-import { invoke } from "@tauri-apps/api/core";
-
-const greetMsg = ref("");
-const name = ref("");
-
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsg.value = await invoke("greet", { name: name.value });
-}
 </script>
 
 <template>
-  <main class="container">
-    <h1>Welcome to Tauri + Vue</h1>
+  <div class="app-container">
+    <!-- 导航栏 -->
+    <nav class="navbar">
+      <div class="nav-links">
+        <!-- 标签管理 -->
+        <router-link to="/tags" class="nav-item">{{ $t('ui.nav_tags') }}</router-link>
 
-    <div class="row">
-      <a href="https://vite.dev" target="_blank">
-        <img src="/vite.svg" class="logo vite" alt="Vite logo" />
-      </a>
-      <a href="https://tauri.app" target="_blank">
-        <img src="/tauri.svg" class="logo tauri" alt="Tauri logo" />
-      </a>
-      <a href="https://vuejs.org/" target="_blank">
-        <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-      </a>
-    </div>
-    <p>Click on the Tauri, Vite, and Vue logos to learn more.</p>
+        <!-- 阵容分析 -->
+        <router-link to="/" class="nav-item nav-main">{{ $t('ui.nav_main') }}</router-link>
 
-    <form class="row" @submit.prevent="greet">
-      <input id="greet-input" v-model="name" placeholder="Enter a name..." />
-      <button type="submit">Greet</button>
-    </form>
-    <p>{{ greetMsg }}</p>
-  </main>
+        <!-- 角色管理 -->
+        <router-link to="/agents" class="nav-item">{{ $t('ui.nav_agents') }}</router-link>
+      </div>
+    </nav>
+
+    <!-- 页面内容渲染区 -->
+    <main class="main-content">
+      <router-view />
+    </main>
+  </div>
 </template>
 
-<style scoped>
-.logo.vite:hover {
-  filter: drop-shadow(0 0 2em #747bff);
-}
-
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #249b73);
-}
-
-</style>
 <style>
-:root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-
-  color: #0f0f0f;
-  background-color: #f6f6f6;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+/* 基础样式 */
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: #f5f5f7;
+  color: #333;
 }
 
-.container {
-  margin: 0;
-  padding-top: 10vh;
+.app-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  text-align: center;
+  height: 100vh;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: 0.75s;
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 1rem 0;
 }
 
-.logo.tauri:hover {
-  filter: drop-shadow(0 0 2em #24c8db);
-}
-
-.row {
+.nav-links {
   display: flex;
   justify-content: center;
+  align-items: center;
+  /* 确保文字大小不同步时能垂直居中 */
+  gap: 3rem;
+  /* 稍微拉开一点间距 */
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
+.nav-item {
+  text-decoration: none;
+  color: #666;
+  font-weight: 600;
+  font-size: 1rem;
+  padding-bottom: 4px;
+  transition: all 0.3s;
 }
 
-a:hover {
-  color: #535bf2;
+/* 主界面特殊样式 */
+.nav-main {
+  font-size: 1.4rem;
+  font-weight: 800;
 }
 
-h1 {
-  text-align: center;
+.nav-item:hover {
+  color: #ff4655;
 }
 
-input,
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  color: #0f0f0f;
-  background-color: #ffffff;
-  transition: border-color 0.25s;
-  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+/* 路由激活时的样式 */
+.nav-item.router-link-active {
+  color: #ff4655;
+  border-bottom: 2px solid #ff4655;
 }
 
-button {
-  cursor: pointer;
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
 }
 
-button:hover {
-  border-color: #396cd8;
-}
-button:active {
-  border-color: #396cd8;
-  background-color: #e8e8e8;
-}
-
-input,
-button {
-  outline: none;
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
-#greet-input {
-  margin-right: 5px;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    color: #f6f6f6;
-    background-color: #2f2f2f;
+/* 简单的移动端响应式 */
+@media (max-width: 600px) {
+  .nav-links {
+    gap: 1.5rem;
   }
 
-  a:hover {
-    color: #24c8db;
+  .nav-item {
+    font-size: 0.9rem;
   }
 
-  input,
-  button {
-    color: #ffffff;
-    background-color: #0f0f0f98;
+  .nav-main {
+    font-size: 1.2rem;
   }
-  button:active {
-    background-color: #0f0f0f69;
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  .page {
+    padding: 1rem;
   }
 }
-
 </style>
