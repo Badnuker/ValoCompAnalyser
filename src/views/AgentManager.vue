@@ -16,14 +16,17 @@ onMounted(async () => {
 
         <div class="agent-grid">
             <div v-for="agent in agents" :key="agent.id" class="agent-card">
-                <!-- 暂时没有图片，先用个占位圆圈 -->
-                <div class="avatar-placeholder"></div>
-                <div class="agent-name">{{ $t(`agents.${agent.id}`) }}</div>
+                <div class="avatar-container">
+                    <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" />
+                </div>
 
-                <div class="agent-tags">
-                    <span v-for="tagId in agent.tags" :key="tagId" class="agent-tag-id">
-                        {{ $t(`tags.${tagId}`) }}
-                    </span>
+                <div class="agent-info">
+                    <div class="agent-name">{{ $t(`agents.${agent.id}`) }}</div>
+                    <div class="agent-tags">
+                        <span v-for="tagId in agent.tags" :key="tagId" class="agent-tag-id">
+                            {{ $t(`tags.${tagId}`) }}
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -33,33 +36,66 @@ onMounted(async () => {
 <style scoped>
 .agent-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 15px;
     margin-top: 20px;
 }
 
+@media (max-width: 768px) {
+    .agent-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 500px) {
+    .agent-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 .agent-card {
-    background: #f9f9f9;
+    background: #fdfdfd;
     border: 1px solid #eee;
-    border-radius: 12px;
-    padding: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.agent-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: #ff4655;
+}
+
+.avatar-container {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-color: #333;
+}
+
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.agent-info {
+    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
-}
-
-.avatar-placeholder {
-    width: 64px;
-    height: 64px;
-    background-color: #ddd;
-    border-radius: 50%;
-    margin-bottom: 12px;
+    flex: 1;
 }
 
 .agent-name {
+    font-size: 0.9rem;
     font-weight: bold;
     margin-bottom: 8px;
+    color: #333;
 }
 
 .agent-tags {
@@ -70,10 +106,10 @@ onMounted(async () => {
 }
 
 .agent-tag-id {
-    font-size: 0.75rem;
-    background: #e0e0e0;
+    font-size: 0.7rem;
+    background: #f0f0f0;
     padding: 2px 6px;
     border-radius: 4px;
-    color: #555;
+    color: #666;
 }
 </style>
