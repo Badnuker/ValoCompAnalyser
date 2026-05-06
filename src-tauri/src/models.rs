@@ -67,19 +67,19 @@ impl AppState {
             Agent {
                 id: "a_jett".into(),
                 name: "捷风 (Jett)".into(),
-                avatar_url: "/avatars/jett.png".into(),
+                avatar_url: "/avatars/Jett_icon.png".into(),
                 tags: vec!["t_dash".into(), "t_short_smoke".into()],
             },
             Agent {
                 id: "a_omen".into(),
                 name: "幽影 (Omen)".into(),
-                avatar_url: "/avatars/omen.png".into(),
+                avatar_url: "/avatars/Omen_icon.png".into(),
                 tags: vec!["t_anti_rush".into(), "t_long_smoke".into(), "t_tp".into()],
             },
             Agent {
                 id: "a_sova".into(),
                 name: "猎枭 (Sova)".into(),
-                avatar_url: "/avatars/sova.png".into(),
+                avatar_url: "/avatars/Sova_icon.png".into(),
                 tags: vec!["t_info".into(), "t_damage".into()],
             },
         ];
