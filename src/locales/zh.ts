@@ -25,6 +25,10 @@ export default {
         empty: "空",
     },
     tags: {
+        t_duelist: "决斗",
+        t_controller: "控场",
+        t_initiator: "先锋",
+        t_sentinel: "哨卫",
         t_anti_rush: "抗点",
         t_damage: "伤害",
         t_dash: "进点",
@@ -34,9 +38,38 @@ export default {
         t_tp: "位移",
     },
     agents: {
+        // 决斗
         a_jett: "捷风 (Jett)",
+        a_reyna: "芮娜 (Reyna)",
+        a_raze: "雷兹 (Raze)",
+        a_phoenix: "不死鸟 (Phoenix)",
+        a_yoru: "夜露 (Yoru)",
+        a_neon: "霓虹 (Neon)",
+        a_iso: "壹决 (Iso)",
+
+        // 控场
         a_omen: "幽影 (Omen)",
+        a_brimstone: "炼狱 (Brimstone)",
+        a_viper: "蝰蛇 (Viper)",
+        a_astra: "星礈 (Astra)",
+        a_harbor: "禁灭 (Harbor)",
+        a_clove: "暮蝶 (Clove)",
+
+        // 先锋
         a_sova: "猎枭 (Sova)",
+        a_fade: "黑梦 (Fade)",
+        a_skye: "斯凯 (Skye)",
+        a_kayo: "K/O (KAY/O)",
+        a_breach: "铁臂 (Breach)",
+        a_gekko: "盖可 (Gekko)",
+
+        // 哨卫
+        a_killjoy: "奇乐 (Killjoy)",
+        a_cypher: "零 (Cypher)",
+        a_sage: "贤者 (Sage)",
+        a_chamber: "尚勃勒 (Chamber)",
+        a_deadlock: "钢索 (Deadlock)",
+        a_vyse: "维斯 (Vyse)"
     }
     ,
     analyzer: {

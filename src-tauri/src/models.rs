@@ -17,24 +17,20 @@ pub struct Agent {
     pub tags: Vec<String>,
 }
 
-// 用于序列化到文件的结构体
 #[derive(Serialize, Deserialize)]
 struct AppData {
     tags: Vec<Tag>,
     agents: Vec<Agent>,
 }
 
-// 全局状态，用于在程序运行时保存在内存中
 pub struct AppState {
     pub tags: std::sync::Mutex<Vec<Tag>>,
     pub agents: std::sync::Mutex<Vec<Agent>>,
-    pub save_path: PathBuf, // 记录保存文件的路径
+    pub save_path: PathBuf,
 }
 
 impl AppState {
-    // 启动时读取本地文件，如果不存在则使用默认数据
     pub fn load_or_default(path: PathBuf) -> Self {
-        // 尝试读取文件
         if let Ok(content) = fs::read_to_string(&path) {
             if let Ok(data) = serde_json::from_str::<AppData>(&content) {
                 return Self {
@@ -45,8 +41,28 @@ impl AppState {
             }
         }
 
-        // 如果文件不存在或解析失败，使用你设置的默认数据
         let tags = vec![
+            Tag {
+                id: "t_duelist".into(),
+                name: "决斗".into(),
+                is_key: true,
+            },
+            Tag {
+                id: "t_controller".into(),
+                name: "控场".into(),
+                is_key: true,
+            },
+            Tag {
+                id: "t_initiator".into(),
+                name: "先锋".into(),
+                is_key: true,
+            },
+            Tag {
+                id: "t_sentinel".into(),
+                name: "哨卫".into(),
+                is_key: true,
+            },
+            // 战术功能标签
             Tag {
                 id: "t_anti_rush".into(),
                 name: "抗点".into(),
@@ -84,25 +100,165 @@ impl AppState {
             },
         ];
 
-        // 2. 预设角色
+        // 2. 预设角色 (全特工分类)
         let agents = vec![
+            // ================= 决斗 (Duelists) =================
             Agent {
                 id: "a_jett".into(),
                 name: "捷风 (Jett)".into(),
                 avatar_url: "/avatars/Jett_icon.png".into(),
-                tags: vec!["t_dash".into(), "t_short_smoke".into()],
+                tags: vec!["t_duelist".into(), "t_dash".into(), "t_short_smoke".into()],
             },
+            Agent {
+                id: "a_reyna".into(),
+                name: "芮娜 (Reyna)".into(),
+                avatar_url: "/avatars/Reyna_icon.png".into(),
+                tags: vec!["t_duelist".into(), "t_damage".into()],
+            },
+            Agent {
+                id: "a_raze".into(),
+                name: "雷兹 (Raze)".into(),
+                avatar_url: "/avatars/Raze_icon.png".into(),
+                tags: vec!["t_duelist".into(), "t_dash".into(), "t_damage".into()],
+            },
+            Agent {
+                id: "a_phoenix".into(),
+                name: "不死鸟 (Phoenix)".into(),
+                avatar_url: "/avatars/Phoenix_icon.png".into(),
+                tags: vec!["t_duelist".into(), "t_short_smoke".into()],
+            },
+            Agent {
+                id: "a_yoru".into(),
+                name: "夜露 (Yoru)".into(),
+                avatar_url: "/avatars/Yoru_icon.png".into(),
+                tags: vec!["t_duelist".into(), "t_tp".into()],
+            },
+            Agent {
+                id: "a_neon".into(),
+                name: "霓虹 (Neon)".into(),
+                avatar_url: "/avatars/Neon_icon.png".into(),
+                tags: vec!["t_duelist".into(), "t_dash".into()],
+            },
+            Agent {
+                id: "a_iso".into(),
+                name: "壹决 (Iso)".into(),
+                avatar_url: "/avatars/Iso_icon.png".into(),
+                tags: vec!["t_duelist".into()],
+            },
+            // ================= 控场 (Controllers) =================
             Agent {
                 id: "a_omen".into(),
                 name: "幽影 (Omen)".into(),
                 avatar_url: "/avatars/Omen_icon.png".into(),
-                tags: vec!["t_anti_rush".into(), "t_long_smoke".into(), "t_tp".into()],
+                tags: vec!["t_controller".into(), "t_long_smoke".into(), "t_tp".into()],
             },
+            Agent {
+                id: "a_brimstone".into(),
+                name: "炼狱 (Brimstone)".into(),
+                avatar_url: "/avatars/Brimstone_icon.png".into(),
+                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+            },
+            Agent {
+                id: "a_viper".into(),
+                name: "蝰蛇 (Viper)".into(),
+                avatar_url: "/avatars/Viper_icon.png".into(),
+                tags: vec![
+                    "t_controller".into(),
+                    "t_long_smoke".into(),
+                    "t_anti_rush".into(),
+                ],
+            },
+            Agent {
+                id: "a_astra".into(),
+                name: "星礈 (Astra)".into(),
+                avatar_url: "/avatars/Astra_icon.png".into(),
+                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+            },
+            Agent {
+                id: "a_harbor".into(),
+                name: "哈泊 (Harbor)".into(),
+                avatar_url: "/avatars/Harbor_icon.png".into(),
+                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+            },
+            Agent {
+                id: "a_clove".into(),
+                name: "珂乐芙 (Clove)".into(),
+                avatar_url: "/avatars/Clove_icon.png".into(),
+                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+            },
+            // ================= 先锋 (Initiators) =================
             Agent {
                 id: "a_sova".into(),
                 name: "猎枭 (Sova)".into(),
                 avatar_url: "/avatars/Sova_icon.png".into(),
-                tags: vec!["t_info".into(), "t_damage".into()],
+                tags: vec!["t_initiator".into(), "t_info".into(), "t_damage".into()],
+            },
+            Agent {
+                id: "a_fade".into(),
+                name: "黑梦 (Fade)".into(),
+                avatar_url: "/avatars/Fade_icon.png".into(),
+                tags: vec!["t_initiator".into(), "t_info".into()],
+            },
+            Agent {
+                id: "a_skye".into(),
+                name: "斯凯 (Skye)".into(),
+                avatar_url: "/avatars/Skye_icon.png".into(),
+                tags: vec!["t_initiator".into(), "t_info".into()],
+            },
+            Agent {
+                id: "a_kayo".into(),
+                name: "KAY/O".into(),
+                avatar_url: "/avatars/KAYO_icon.png".into(),
+                tags: vec!["t_initiator".into(), "t_info".into(), "t_anti_rush".into()],
+            },
+            Agent {
+                id: "a_breach".into(),
+                name: "铁臂 (Breach)".into(),
+                avatar_url: "/avatars/Breach_icon.png".into(),
+                tags: vec!["t_initiator".into(), "t_anti_rush".into()],
+            },
+            Agent {
+                id: "a_gekko".into(),
+                name: "盖柯 (Gekko)".into(),
+                avatar_url: "/avatars/Gekko_icon.png".into(),
+                tags: vec!["t_initiator".into(), "t_info".into()],
+            },
+            // ================= 哨卫 (Sentinels) =================
+            Agent {
+                id: "a_killjoy".into(),
+                name: "奇乐 (Killjoy)".into(),
+                avatar_url: "/avatars/Killjoy_icon.png".into(),
+                tags: vec!["t_sentinel".into(), "t_anti_rush".into(), "t_info".into()],
+            },
+            Agent {
+                id: "a_cypher".into(),
+                name: "零 (Cypher)".into(),
+                avatar_url: "/avatars/Cypher_icon.png".into(),
+                tags: vec!["t_sentinel".into(), "t_anti_rush".into(), "t_info".into()],
+            },
+            Agent {
+                id: "a_sage".into(),
+                name: "贤者 (Sage)".into(),
+                avatar_url: "/avatars/Sage_icon.png".into(),
+                tags: vec!["t_sentinel".into(), "t_anti_rush".into()],
+            },
+            Agent {
+                id: "a_chamber".into(),
+                name: "尚勃勒 (Chamber)".into(),
+                avatar_url: "/avatars/Chamber_icon.png".into(),
+                tags: vec!["t_sentinel".into(), "t_tp".into()],
+            },
+            Agent {
+                id: "a_deadlock".into(),
+                name: "死锁 (Deadlock)".into(),
+                avatar_url: "/avatars/Deadlock_icon.png".into(),
+                tags: vec!["t_sentinel".into(), "t_anti_rush".into()],
+            },
+            Agent {
+                id: "a_vyse".into(),
+                name: "维斯 (Vyse)".into(),
+                avatar_url: "/avatars/Vyse_icon.png".into(),
+                tags: vec!["t_sentinel".into(), "t_anti_rush".into()],
             },
         ];
 
@@ -112,18 +268,15 @@ impl AppState {
             save_path: path,
         };
 
-        // 第一次生成默认数据后，顺手保存一份到本地
         state.save();
         state
     }
 
-    // 将当前内存中的数据写入本地文件
     pub fn save(&self) {
         let data = AppData {
             tags: self.tags.lock().unwrap().clone(),
             agents: self.agents.lock().unwrap().clone(),
         };
-        // 格式化为 JSON 字符串并写入
         if let Ok(json) = serde_json::to_string_pretty(&data) {
             let _ = fs::write(&self.save_path, json);
         }

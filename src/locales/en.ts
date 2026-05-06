@@ -25,6 +25,10 @@ export default {
         empty: "Empty",
     },
     tags: {
+        t_duelist: "Duelist",
+        t_controller: "Controller",
+        t_initiator: "Initiator",
+        t_sentinel: "Sentinel",
         t_anti_rush: "Anti-Rush",
         t_damage: "Damage",
         t_dash: "Dash",
@@ -34,9 +38,38 @@ export default {
         t_tp: "TP",
     },
     agents: {
+        // Duelists
         a_jett: "Jett",
+        a_reyna: "Reyna",
+        a_raze: "Raze",
+        a_phoenix: "Phoenix",
+        a_yoru: "Yoru",
+        a_neon: "Neon",
+        a_iso: "Iso",
+
+        // Controllers
         a_omen: "Omen",
+        a_brimstone: "Brimstone",
+        a_viper: "Viper",
+        a_astra: "Astra",
+        a_harbor: "Harbor",
+        a_clove: "Clove",
+
+        // Initiators
         a_sova: "Sova",
+        a_fade: "Fade",
+        a_skye: "Skye",
+        a_kayo: "KAY/O",
+        a_breach: "Breach",
+        a_gekko: "Gekko",
+
+        // Sentinels
+        a_killjoy: "Killjoy",
+        a_cypher: "Cypher",
+        a_sage: "Sage",
+        a_chamber: "Chamber",
+        a_deadlock: "Deadlock",
+        a_vyse: "Vyse"
     }
     ,
     analyzer: {
