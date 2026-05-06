@@ -39,36 +39,40 @@ export default {
     },
     agents: {
         // Duelists
-        a_jett: "Jett",
-        a_reyna: "Reyna",
-        a_raze: "Raze",
-        a_phoenix: "Phoenix",
-        a_yoru: "Yoru",
-        a_neon: "Neon",
         a_iso: "Iso",
+        a_jett: "Jett",
+        a_neon: "Neon",
+        a_phoenix: "Phoenix",
+        a_raze: "Raze",
+        a_reyna: "Reyna",
+        a_waylay: "Waylay",
+        a_yoru: "Yoru",
 
         // Controllers
-        a_omen: "Omen",
-        a_brimstone: "Brimstone",
-        a_viper: "Viper",
         a_astra: "Astra",
-        a_harbor: "Harbor",
+        a_brimstone: "Brimstone",
         a_clove: "Clove",
+        a_harbor: "Harbor",
+        a_miks: "Miks",
+        a_omen: "Omen",
+        a_viper: "Viper",
 
         // Initiators
-        a_sova: "Sova",
-        a_fade: "Fade",
-        a_skye: "Skye",
-        a_kayo: "KAY/O",
         a_breach: "Breach",
+        a_fade: "Fade",
         a_gekko: "Gekko",
+        a_kayo: "KAY/O",
+        a_skye: "Skye",
+        a_sova: "Sova",
+        a_tejo: "Tejo",
 
         // Sentinels
-        a_killjoy: "Killjoy",
-        a_cypher: "Cypher",
-        a_sage: "Sage",
         a_chamber: "Chamber",
+        a_cypher: "Cypher",
         a_deadlock: "Deadlock",
+        a_killjoy: "Killjoy",
+        a_sage: "Sage",
+        a_veto: "Veto",
         a_vyse: "Vyse"
     }
     ,

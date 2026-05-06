@@ -39,36 +39,40 @@ export default {
     },
     agents: {
         // 决斗
-        a_jett: "捷风 (Jett)",
-        a_reyna: "芮娜 (Reyna)",
-        a_raze: "雷兹 (Raze)",
-        a_phoenix: "不死鸟 (Phoenix)",
-        a_yoru: "夜露 (Yoru)",
-        a_neon: "霓虹 (Neon)",
         a_iso: "壹决 (Iso)",
+        a_jett: "捷风 (Jett)",
+        a_neon: "霓虹 (Neon)",
+        a_phoenix: "不死鸟 (Phoenix)",
+        a_raze: "雷兹 (Raze)",
+        a_reyna: "芮娜 (Reyna)",
+        a_waylay: "幻棱 (Waylay)",
+        a_yoru: "夜露 (Yoru)",
 
         // 控场
-        a_omen: "幽影 (Omen)",
-        a_brimstone: "炼狱 (Brimstone)",
-        a_viper: "蝰蛇 (Viper)",
         a_astra: "星礈 (Astra)",
-        a_harbor: "禁灭 (Harbor)",
+        a_brimstone: "炼狱 (Brimstone)",
         a_clove: "暮蝶 (Clove)",
+        a_harbor: "海神 (Harbor)",
+        a_miks: "迷核 (Miks)",
+        a_omen: "幽影 (Omen)",
+        a_viper: "蝰蛇 (Viper)",
 
         // 先锋
-        a_sova: "猎枭 (Sova)",
-        a_fade: "黑梦 (Fade)",
-        a_skye: "斯凯 (Skye)",
-        a_kayo: "K/O (KAY/O)",
         a_breach: "铁臂 (Breach)",
+        a_fade: "黑梦 (Fade)",
         a_gekko: "盖可 (Gekko)",
+        a_kayo: "K/O (KAY/O)",
+        a_skye: "斯凯 (Skye)",
+        a_sova: "猎枭 (Sova)",
+        a_tejo: "钛狐 (Tejo)",
 
         // 哨卫
-        a_killjoy: "奇乐 (Killjoy)",
-        a_cypher: "零 (Cypher)",
-        a_sage: "贤者 (Sage)",
         a_chamber: "尚勃勒 (Chamber)",
+        a_cypher: "零 (Cypher)",
         a_deadlock: "钢索 (Deadlock)",
+        a_killjoy: "奇乐 (Killjoy)",
+        a_sage: "贤者 (Sage)",
+        a_veto: "禁灭 (Veto)",
         a_vyse: "维斯 (Vyse)"
     }
     ,
