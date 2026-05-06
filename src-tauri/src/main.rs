@@ -105,24 +105,39 @@ async fn export_data(state: State<'_, AppState>) -> Result<(), String> {
     }
 }
 
-// 导入配置：接收前端传来的 JSON 字符串并覆写内存，然后保存
+// 导入配置：从用户选择的 JSON 文件加载数据，并与当前内置默认数据合并，覆盖内存中的数据
 #[tauri::command]
 async fn import_data(state: State<'_, AppState>) -> Result<(), String> {
-    // 打开系统的“选择文件”弹窗
     if let Some(path) = rfd::FileDialog::new()
         .add_filter("JSON 文件", &["json"])
         .pick_file()
     {
-        // 读取用户选择的文件
         let json_str = std::fs::read_to_string(path).map_err(|e| format!("读取文件失败: {}", e))?;
-        let parsed: AppData =
+        let mut parsed: AppData =
             serde_json::from_str(&json_str).map_err(|e| format!("文件格式不正确: {}", e))?;
+
+        // 获取当前程序的最新默认数据作为模板
+        let default_data = AppState::get_default_data();
+
+        // 合并缺失的标签
+        for def_tag in default_data.tags {
+            if !parsed.tags.iter().any(|t| t.id == def_tag.id) {
+                parsed.tags.push(def_tag);
+            }
+        }
+
+        // 合并缺失的角色
+        for def_agent in default_data.agents {
+            if !parsed.agents.iter().any(|a| a.id == def_agent.id) {
+                parsed.agents.push(def_agent);
+            }
+        }
 
         // 覆盖当前内存数据
         *state.tags.lock().unwrap() = parsed.tags;
         *state.agents.lock().unwrap() = parsed.agents;
 
-        state.save(); // 保存到程序的持久化目录
+        state.save(); // 保存合并后的最终结果
         Ok(())
     } else {
         Err("用户取消了导入".into())

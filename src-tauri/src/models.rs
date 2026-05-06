@@ -280,17 +280,38 @@ impl AppState {
     }
 
     pub fn load_or_default(path: PathBuf) -> Self {
+        let default_data = Self::get_default_data();
+
+        // 尝试读取本地的 json 文件
         if let Ok(content) = fs::read_to_string(&path) {
-            if let Ok(data) = serde_json::from_str::<AppData>(&content) {
-                return Self {
-                    tags: std::sync::Mutex::new(data.tags),
-                    agents: std::sync::Mutex::new(data.agents),
+            if let Ok(mut parsed) = serde_json::from_str::<AppData>(&content) {
+                // 合并标签：如果新版本中有新标签，但本地缓存里没有，就补上
+                for def_tag in &default_data.tags {
+                    if !parsed.tags.iter().any(|t| t.id == def_tag.id) {
+                        parsed.tags.push(def_tag.clone());
+                    }
+                }
+
+                // 合并角色：如果新版本出了新特工，但本地缓存里没有，就补上
+                for def_agent in &default_data.agents {
+                    if !parsed.agents.iter().any(|a| a.id == def_agent.id) {
+                        parsed.agents.push(def_agent.clone());
+                    }
+                }
+
+                let state = Self {
+                    tags: std::sync::Mutex::new(parsed.tags),
+                    agents: std::sync::Mutex::new(parsed.agents),
                     save_path: path,
                 };
+
+                // 顺手把合并后的最新完整名单再保存回本地
+                state.save();
+                return state;
             }
         }
 
-        let default_data = Self::get_default_data();
+        // 如果完全没有本地文件（第一次启动），则直接使用默认数据
         let state = Self {
             tags: std::sync::Mutex::new(default_data.tags),
             agents: std::sync::Mutex::new(default_data.agents),
