@@ -27,7 +27,7 @@ impl AppState {
         let tags = vec![
             Tag {
                 id: "t_anti_rush".into(),
-                name: "防 rush".into(),
+                name: "抗点".into(),
                 is_key: true,
             },
             Tag {
@@ -36,19 +36,29 @@ impl AppState {
                 is_key: false,
             },
             Tag {
-                id: "t_intel".into(),
+                id: "t_dash".into(),
+                name: "进点".into(),
+                is_key: true,
+            },
+            Tag {
+                id: "t_short_smoke".into(),
+                name: "短烟".into(),
+                is_key: false,
+            },
+            Tag {
+                id: "t_info".into(),
                 name: "信息".into(),
                 is_key: true,
             },
             Tag {
-                id: "t_mobility".into(),
-                name: "位移".into(),
+                id: "t_long_smoke".into(),
+                name: "长烟".into(),
                 is_key: true,
             },
             Tag {
-                id: "t_smoke".into(),
-                name: "烟雾".into(),
-                is_key: true,
+                id: "t_tp".into(),
+                name: "位移".into(),
+                is_key: false,
             },
         ];
 
@@ -58,19 +68,19 @@ impl AppState {
                 id: "a_jett".into(),
                 name: "捷风 (Jett)".into(),
                 avatar_url: "/avatars/jett.png".into(),
-                tags: vec!["t_mobility".into(), "t_smoke".into()],
+                tags: vec!["t_dash".into(), "t_fast_smoke".into()],
             },
             Agent {
                 id: "a_omen".into(),
                 name: "幽影 (Omen)".into(),
                 avatar_url: "/avatars/omen.png".into(),
-                tags: vec!["t_anti_rush".into(), "t_mobility".into(), "t_smoke".into()],
+                tags: vec!["t_slow_smoke".into(), "t_tp".into()],
             },
             Agent {
                 id: "a_sova".into(),
                 name: "猎枭 (Sova)".into(),
                 avatar_url: "/avatars/sova.png".into(),
-                tags: vec!["t_damage".into(), "t_intel".into()],
+                tags: vec!["t_info".into(), "t_damage".into()],
             },
         ];
 

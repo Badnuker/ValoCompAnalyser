@@ -7,11 +7,13 @@ export default {
         btn_add: "添加",
     },
     tags: {
-        t_anti_rush: "防 rush",
+        t_anti_rush: "抗点",
         t_damage: "伤害",
-        t_intel: "信息",
-        t_mobility: "位移",
-        t_smoke: "烟雾",
+        t_dash: "进点",
+        t_short_smoke: "短烟",
+        t_info: "信息",
+        t_long_smoke: "长烟",
+        t_tp: "位移",
     },
     agents: {
         a_jett: "捷风 (Jett)",

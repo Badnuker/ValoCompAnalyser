@@ -6,6 +6,18 @@ export default {
         nav_main: "Analyzer",
         btn_add: "Add",
     },
-    tags: {},
-    agents: {}
+    tags: {
+        t_anti_rush: "Anti-Rush",
+        t_damage: "Damage",
+        t_dash: "Dash",
+        t_short_smoke: "Short Smoke",
+        t_info: "Info",
+        t_long_smoke: "Long Smoke",
+        t_tp: "TP",
+    },
+    agents: {
+        a_jett: "Jett",
+        a_omen: "Omen",
+        a_sova: "Sova",
+    }
 };
