@@ -50,6 +50,7 @@ export default {
         t_info: "Info",
         t_long_smoke: "Long Smoke",
         t_tp: "TP",
+        t_flash: "Flash",
     },
     agents: {
         // Duelists

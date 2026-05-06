@@ -89,6 +89,11 @@ impl AppState {
                 name: "位移".into(),
                 is_key: false,
             },
+            Tag {
+                id: "t_flash".into(),
+                name: "闪光".into(),
+                is_key: true,
+            },
         ];
 
         let agents = vec![
@@ -109,13 +114,13 @@ impl AppState {
                 id: "a_neon".into(),
                 name: "霓虹 (Neon)".into(),
                 avatar_url: "/avatars/Neon_icon.png".into(),
-                tags: vec!["t_duelist".into(), "t_dash".into()],
+                tags: vec!["t_duelist".into(), "t_dash".into(), "t_short_smoke".into()],
             },
             Agent {
                 id: "a_phoenix".into(),
                 name: "不死鸟 (Phoenix)".into(),
                 avatar_url: "/avatars/Phoenix_icon.png".into(),
-                tags: vec!["t_duelist".into(), "t_short_smoke".into()],
+                tags: vec!["t_duelist".into(), "t_damage".into(), "t_flash".into()],
             },
             Agent {
                 id: "a_raze".into(),
@@ -127,32 +132,40 @@ impl AppState {
                 id: "a_reyna".into(),
                 name: "芮娜 (Reyna)".into(),
                 avatar_url: "/avatars/Reyna_icon.png".into(),
-                tags: vec!["t_duelist".into(), "t_damage".into()],
+                tags: vec!["t_duelist".into(), "t_flash".into()],
             },
             Agent {
                 id: "a_waylay".into(),
                 name: "幻棱 (Waylay)".into(),
                 avatar_url: "/avatars/Waylay_icon.png".into(),
-                tags: vec!["t_duelist".into(), "t_dash".into()],
+                tags: vec!["t_duelist".into(), "t_dash".into(), "t_anti_rush".into()],
             },
             Agent {
                 id: "a_yoru".into(),
                 name: "夜露 (Yoru)".into(),
                 avatar_url: "/avatars/Yoru_icon.png".into(),
-                tags: vec!["t_duelist".into(), "t_tp".into()],
+                tags: vec!["t_duelist".into(), "t_tp".into(), "t_flash".into()],
             },
             // ================= 控场 (Controllers) =================
             Agent {
                 id: "a_astra".into(),
                 name: "星礈 (Astra)".into(),
                 avatar_url: "/avatars/Astra_icon.png".into(),
-                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+                tags: vec![
+                    "t_controller".into(),
+                    "t_long_smoke".into(),
+                    "t_short_smoke".into(),
+                ],
             },
             Agent {
                 id: "a_brimstone".into(),
                 name: "炼狱 (Brimstone)".into(),
                 avatar_url: "/avatars/Brimstone_icon.png".into(),
-                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+                tags: vec![
+                    "t_controller".into(),
+                    "t_long_smoke".into(),
+                    "t_damage".into(),
+                ],
             },
             Agent {
                 id: "a_clove".into(),
@@ -164,19 +177,33 @@ impl AppState {
                 id: "a_harbor".into(),
                 name: "海神 (Harbor)".into(),
                 avatar_url: "/avatars/Harbor_icon.png".into(),
-                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+                tags: vec![
+                    "t_controller".into(),
+                    "t_long_smoke".into(),
+                    "t_anti_rush".into(),
+                ],
             },
             Agent {
                 id: "a_miks".into(),
                 name: "迷核 (Miks)".into(),
                 avatar_url: "/avatars/Miks_icon.png".into(),
-                tags: vec!["t_controller".into(), "t_long_smoke".into()],
+                tags: vec![
+                    "t_controller".into(),
+                    "t_long_smoke".into(),
+                    "t_anti_rush".into(),
+                ],
             },
             Agent {
                 id: "a_omen".into(),
                 name: "幽影 (Omen)".into(),
                 avatar_url: "/avatars/Omen_icon.png".into(),
-                tags: vec!["t_controller".into(), "t_long_smoke".into(), "t_tp".into()],
+                tags: vec![
+                    "t_controller".into(),
+                    "t_long_smoke".into(),
+                    "t_tp".into(),
+                    "t_flash".into(),
+                    "t_anti_rush".into(),
+                ],
             },
             Agent {
                 id: "a_viper".into(),
@@ -186,6 +213,7 @@ impl AppState {
                     "t_controller".into(),
                     "t_long_smoke".into(),
                     "t_anti_rush".into(),
+                    "t_damage".into(),
                 ],
             },
             // ================= 先锋 (Initiators) =================
@@ -193,31 +221,48 @@ impl AppState {
                 id: "a_breach".into(),
                 name: "铁臂 (Breach)".into(),
                 avatar_url: "/avatars/Breach_icon.png".into(),
-                tags: vec!["t_initiator".into(), "t_anti_rush".into()],
+                tags: vec![
+                    "t_initiator".into(),
+                    "t_anti_rush".into(),
+                    "t_flash".into(),
+                    "t_damage".into(),
+                ],
             },
             Agent {
                 id: "a_fade".into(),
                 name: "黑梦 (Fade)".into(),
                 avatar_url: "/avatars/Fade_icon.png".into(),
-                tags: vec!["t_initiator".into(), "t_info".into()],
+                tags: vec!["t_initiator".into(), "t_info".into(), "t_anti_rush".into()],
             },
             Agent {
                 id: "a_gekko".into(),
                 name: "盖可 (Gekko)".into(),
                 avatar_url: "/avatars/Gekko_icon.png".into(),
-                tags: vec!["t_initiator".into(), "t_info".into()],
+                tags: vec![
+                    "t_initiator".into(),
+                    "t_info".into(),
+                    "t_anti_rush".into(),
+                    "t_damage".into(),
+                    "t_flash".into(),
+                ],
             },
             Agent {
                 id: "a_kayo".into(),
                 name: "K/O (KAY/O)".into(),
                 avatar_url: "/avatars/KAYO_icon.png".into(),
-                tags: vec!["t_initiator".into(), "t_info".into(), "t_anti_rush".into()],
+                tags: vec![
+                    "t_initiator".into(),
+                    "t_info".into(),
+                    "t_anti_rush".into(),
+                    "t_damage".into(),
+                    "t_flash".into(),
+                ],
             },
             Agent {
                 id: "a_skye".into(),
                 name: "斯凯 (Skye)".into(),
                 avatar_url: "/avatars/Skye_icon.png".into(),
-                tags: vec!["t_initiator".into(), "t_info".into()],
+                tags: vec!["t_initiator".into(), "t_info".into(), "t_flash".into()],
             },
             Agent {
                 id: "a_sova".into(),
@@ -229,32 +274,47 @@ impl AppState {
                 id: "a_tejo".into(),
                 name: "钛狐 (Tejo)".into(),
                 avatar_url: "/avatars/Tejo_icon.png".into(),
-                tags: vec!["t_initiator".into(), "t_info".into()],
+                tags: vec![
+                    "t_initiator".into(),
+                    "t_info".into(),
+                    "t_damage".into(),
+                    "t_anti_rush".into(),
+                ],
             },
             // ================= 哨卫 (Sentinels) =================
             Agent {
                 id: "a_chamber".into(),
                 name: "尚勃勒 (Chamber)".into(),
                 avatar_url: "/avatars/Chamber_icon.png".into(),
-                tags: vec!["t_sentinel".into(), "t_tp".into()],
+                tags: vec!["t_sentinel".into(), "t_tp".into(), "t_info".into()],
             },
             Agent {
                 id: "a_cypher".into(),
                 name: "零 (Cypher)".into(),
                 avatar_url: "/avatars/Cypher_icon.png".into(),
-                tags: vec!["t_sentinel".into(), "t_anti_rush".into(), "t_info".into()],
+                tags: vec![
+                    "t_sentinel".into(),
+                    "t_anti_rush".into(),
+                    "t_info".into(),
+                    "t_short_smoke".into(),
+                ],
             },
             Agent {
                 id: "a_deadlock".into(),
                 name: "钢索 (Deadlock)".into(),
                 avatar_url: "/avatars/Deadlock_icon.png".into(),
-                tags: vec!["t_sentinel".into(), "t_anti_rush".into()],
+                tags: vec!["t_sentinel".into(), "t_anti_rush".into(), "t_info".into()],
             },
             Agent {
                 id: "a_killjoy".into(),
                 name: "奇乐 (Killjoy)".into(),
                 avatar_url: "/avatars/Killjoy_icon.png".into(),
-                tags: vec!["t_sentinel".into(), "t_anti_rush".into(), "t_info".into()],
+                tags: vec![
+                    "t_sentinel".into(),
+                    "t_anti_rush".into(),
+                    "t_info".into(),
+                    "t_damage".into(),
+                ],
             },
             Agent {
                 id: "a_sage".into(),
@@ -272,7 +332,7 @@ impl AppState {
                 id: "a_vyse".into(),
                 name: "维斯 (Vyse)".into(),
                 avatar_url: "/avatars/Vyse_icon.png".into(),
-                tags: vec!["t_sentinel".into(), "t_anti_rush".into()],
+                tags: vec!["t_sentinel".into(), "t_anti_rush".into(), "t_damage".into()],
             },
         ];
 

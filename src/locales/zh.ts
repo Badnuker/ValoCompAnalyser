@@ -50,6 +50,7 @@ export default {
         t_info: "信息",
         t_long_smoke: "长烟",
         t_tp: "位移",
+        t_flash: "闪光",
     },
     agents: {
         // 决斗
