@@ -1,0 +1,24 @@
+name: 分享个性化配置
+description: 导出了自己补充的角色标签？来这里分享给其他玩家！
+title: "[配置分享] 请在这里写上你的配置名称"
+labels: ["配置分享", "Show and tell"]
+category: 配置分享
+body:
+  - type: markdown
+    attributes:
+      value: "🎉 感谢分享！请简单介绍一下你对角色及其定位的理解，并附上配置文件供大家下载体验。"
+  - type: textarea
+    id: idea
+    attributes:
+      label: 💡 标签设计思路
+      description: 你新增/修改了哪些角色标签？有哪些独到的见解？
+      placeholder: "我新增了标签A、B、C，为角色X、Y、Z添加标签A，因为……"
+    validations:
+      required: true
+  - type: textarea
+    id: json_upload
+    attributes:
+      label: 📁 配置文件上传
+      description: 请将你导出的 `.json` 配置文件直接拖拽或粘贴到下方文本框中（GitHub 会自动生成下载链接）。
+    validations:
+      required: true
