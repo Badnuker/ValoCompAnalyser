@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "valo-comp-analyser",
+  "productName": "无畏契约阵容分析器",
   "version": "0.1.0",
   "identifier": "net.badnuker.valo-comp-analyser",
   "build": {
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "ValoCompAnalyser",
+        "title": "无畏契约阵容分析器",
         "width": 800,
         "height": 600
       }

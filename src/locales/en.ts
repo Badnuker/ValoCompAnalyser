@@ -34,9 +34,12 @@ export default {
         alert_import_success: "Import successful! The app will refresh to apply the new configuration.",
         alert_import_failed: "Import failed: {error}",
         alert_export_failed: "Export failed: {error}",
+        alert_export_success: "Export successful! File saved at: {path}",
         alert_reset_success: "Default configuration restored!",
         alert_reset_failed: "Reset failed: {error}",
         confirm_reset_config: "Dangerous action ⚠️\nThis will clear all your custom tags and changes and restore the initial default state. Continue?",
+        alert_export_clipboard: "Config copied to clipboard!\nPaste it somewhere safe to keep.",
+        prompt_import_code: "Please paste the exported config code:",
     },
     tags: {
         t_duelist: "Duelist",

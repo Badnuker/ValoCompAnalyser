@@ -34,9 +34,12 @@ export default {
         alert_import_success: "导入成功！程序将刷新以应用新配置。",
         alert_import_failed: "导入失败：{error}",
         alert_export_failed: "导出失败：{error}",
+        alert_export_success: "导出成功！文件保存在：{path}",
         alert_reset_success: "已恢复默认配置！",
         alert_reset_failed: "重置失败：{error}",
         confirm_reset_config: "危险操作 ⚠️\n这将会清除你所有的自定义标签和改动，恢复到初始默认状态。确定要继续吗？",
+        alert_export_clipboard: "配置已复制到剪贴板！\n粘贴到安全的地方保存。",
+        prompt_import_code: "请粘贴之前导出的配置代码：",
     },
     tags: {
         t_duelist: "决斗",

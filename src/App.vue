@@ -1,46 +1,37 @@
 <script setup lang="ts">
 import LanguageSwitcher from './components/LanguageSwitcher.vue';
 import { invoke } from '@tauri-apps/api/core';
-import { open, save } from '@tauri-apps/plugin-dialog';
+import { writeText } from '@tauri-apps/plugin-clipboard-manager';
 import { useI18n } from 'vue-i18n';
+import { ref } from 'vue';
 
 const { t } = useI18n({ useScope: 'global' });
 
+const showImportModal = ref(false);
+const importCode = ref('');
+
 const exportConfig = async () => {
   try {
-    console.log('Starting export...');
-    const selectedPath = await save({
-      defaultPath: 'valo_comp_config.json',
-      filters: [{ name: 'JSON 文件', extensions: ['json'] }],
-    });
-    console.log('Selected path:', selectedPath);
-
-    if (!selectedPath || Array.isArray(selectedPath)) {
-      return;
-    }
-
-    await invoke('export_data', { filePath: selectedPath });
+    const encoded = await invoke<string>('get_data_packed');
+    await writeText(encoded);
+    alert(t('ui.alert_export_clipboard'));
   } catch (error) {
     console.error('Export error:', error);
     alert(t('ui.alert_export_failed', { error }));
   }
 };
 
-const importConfig = async () => {
+const importConfig = () => {
+  importCode.value = '';
+  showImportModal.value = true;
+};
+
+const doImport = async () => {
+  const encoded = importCode.value.trim();
+  if (!encoded) return;
   try {
-    console.log('Starting import...');
-    const selectedPath = await open({
-      multiple: false,
-      directory: false,
-      filters: [{ name: 'JSON 文件', extensions: ['json'] }],
-    });
-    console.log('Selected path:', selectedPath);
-
-    if (!selectedPath || Array.isArray(selectedPath)) {
-      return;
-    }
-
-    await invoke('import_data', { filePath: selectedPath });
+    await invoke('import_data_packed', { encoded });
+    showImportModal.value = false;
     alert(t('ui.alert_import_success'));
     window.location.reload();
   } catch (error) {
@@ -85,6 +76,23 @@ const resetConfig = async () => {
     <main class="main-content">
       <router-view />
     </main>
+
+    <div v-if="showImportModal" class="modal-overlay" @click.self="showImportModal = false">
+      <div class="modal-box">
+        <h3>{{ t('ui.title_import_config') }}</h3>
+        <textarea
+          v-model="importCode"
+          :placeholder="t('ui.prompt_import_code')"
+          class="import-textarea"
+          rows="5"
+          autofocus
+        ></textarea>
+        <div class="modal-actions">
+          <button class="config-btn" @click="showImportModal = false">{{ t('ui.btn_cancel') }}</button>
+          <button class="config-btn" style="background:#ff4655;color:#fff;border-color:#ff4655" @click="doImport">OK</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -261,5 +269,44 @@ body {
     padding: 12px;
     border-radius: 8px;
   }
+}
+
+/* 导入模态框 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-box {
+  background: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+.modal-box h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.1rem;
+}
+.import-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.85rem;
+  font-family: monospace;
+  resize: vertical;
+}
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 14px;
 }
 </style>
