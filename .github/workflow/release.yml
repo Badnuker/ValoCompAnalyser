@@ -1,0 +1,49 @@
+name: "Release"
+
+on:
+  push:
+    tags:
+      - 'v*' # 只有当你推送以 v 开头的标签（如 v1.0.1）时，才会自动触发打包
+  workflow_dispatch: # 允许你在网页上点击按钮手动触发
+
+jobs:
+  build-and-release:
+    permissions:
+      contents: write # 允许脚本创建 Release 和上传文件
+    strategy:
+      fail-fast: false # 如果 Linux 失败了，Windows 依然会继续打包，互不影响
+      matrix:
+        platform: [windows-latest, ubuntu-22.04]
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 配置 Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: 配置 Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: 安装 Linux 环境依赖 (仅 Linux 需要)
+        if: matrix.platform == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+
+      - name: 安装前端依赖
+        run: npm install
+
+      - name: Tauri 自动编译并上传 Release
+        uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ github.ref_name }} # 自动读取你打的标签名，例如 v1.0.1
+          releaseName: 'ValoCompAnalyser ${{ github.ref_name }}'
+          releaseBody: '自动打包的最新版本。请从下方 Assets 中下载对应系统的安装包。'
+          releaseDraft: true # 生成草稿（Draft），打包完不会立刻公开，让你能先检查一下
+          prerelease: false
