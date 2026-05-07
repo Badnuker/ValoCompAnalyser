@@ -23,7 +23,7 @@
 ## 🤝 欢迎分享你的个性化配置！
 
 一千个玩家心里有一千种对《无畏契约》的理解。你对特工定位的划分是什么样的？
-**强烈欢迎大家在 [Discussions (讨论区)](https://github.com/Badnuker/ValoCompAnalyser/discussions/categories/%E9%85%8D%E7%BD%AE%E5%88%86%E4%BA%AB) 发帖，附上你导出的 `.json` 配置文件并分享你的战术思路！** 
+**强烈欢迎大家在 [Discussions (讨论区)](https://github.com/Badnuker/ValoCompAnalyser/discussions/categories/share) 发帖，附上你导出的 `.json` 配置文件并分享你的战术思路！** 
 你可以通过导入其他玩家的配置，体验完全不同的角色理解视角！
 
 ## 🛠️ 本地开发与构建 (How to build)
