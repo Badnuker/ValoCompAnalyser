@@ -1,8 +1,5 @@
-name: "分享个性化配置"
-description: "导出了自己补充的角色标签？来这里分享给其他玩家！"
 title: "[配置分享] 请在这里写上你的配置名称"
 labels: ["配置分享", "Show and tell"]
-category: "配置分享"
 body:
   - type: markdown
     attributes:
