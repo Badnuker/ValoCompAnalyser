@@ -1,30 +1,51 @@
 <script setup lang="ts">
 import LanguageSwitcher from './components/LanguageSwitcher.vue';
 import { invoke } from '@tauri-apps/api/core';
+import { open, save } from '@tauri-apps/plugin-dialog';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n({ useScope: 'global' });
 
 const exportConfig = async () => {
   try {
-    await invoke('export_data');
-    // 如果没有报错，说明用户成功保存了（或者正常取消了）
-  } catch (error) {
-    if (error !== "用户取消了导出") {
-      alert(t('ui.alert_export_failed', { error }));
+    console.log('Starting export...');
+    const selectedPath = await save({
+      defaultPath: 'valo_comp_config.json',
+      filters: [{ name: 'JSON 文件', extensions: ['json'] }],
+    });
+    console.log('Selected path:', selectedPath);
+
+    if (!selectedPath || Array.isArray(selectedPath)) {
+      return;
     }
+
+    await invoke('export_data', { filePath: selectedPath });
+  } catch (error) {
+    console.error('Export error:', error);
+    alert(t('ui.alert_export_failed', { error }));
   }
 };
 
 const importConfig = async () => {
   try {
-    await invoke('import_data');
+    console.log('Starting import...');
+    const selectedPath = await open({
+      multiple: false,
+      directory: false,
+      filters: [{ name: 'JSON 文件', extensions: ['json'] }],
+    });
+    console.log('Selected path:', selectedPath);
+
+    if (!selectedPath || Array.isArray(selectedPath)) {
+      return;
+    }
+
+    await invoke('import_data', { filePath: selectedPath });
     alert(t('ui.alert_import_success'));
     window.location.reload();
   } catch (error) {
-    if (error !== "用户取消了导入") {
-      alert(t('ui.alert_import_failed', { error }));
-    }
+    console.error('Import error:', error);
+    alert(t('ui.alert_import_failed', { error }));
   }
 };
 
