@@ -18,13 +18,13 @@
 1. **配置标签 (Tags)**：前往“标签管理”页面，添加你认为一个好阵容必须具备的战术要素，并将核心要素设为 `Key`（关键标签）。
 2. **分配特工 (Agents)**：前往“角色管理”页面，点击特工头像，为他们勾选对应的战术标签。
 3. **阵容诊断 (Analyzer)**：在主界面点击 `+` 号选择特工，下方的雷达面板会实时反馈该阵容是否满足了所有的关键标签需求。
-4. **导出备份**：点击右上角的“📤 导出”按钮，将你的心血配置保存为 `.json` 文件。
+4. **导出备份**：点击右上角的"📤 导出"按钮，配置码自动复制到剪贴板，粘贴到安全的地方保存即可。
 
 ## 🤝 欢迎分享你的个性化配置！
 
 一千个玩家心里有一千种对《无畏契约》的理解。你对特工定位的划分是什么样的？
-**强烈欢迎大家在 [Discussions (讨论区)](https://github.com/Badnuker/ValoCompAnalyser/discussions/categories/share) 发帖，附上你导出的 `.json` 配置文件并分享你的战术思路！** 
-你可以通过导入其他玩家的配置，体验完全不同的角色理解视角！
+**强烈欢迎大家在 [Discussions (讨论区)](https://github.com/Badnuker/ValoCompAnalyser/discussions/categories/share) 发帖，粘贴你导出的一串配置码并分享你的战术思路！** 
+你可以通过导入其他玩家的配置码，体验完全不同的角色理解视角！
 
 ## 🛠️ 本地开发与构建 (How to build)
 
@@ -56,3 +56,10 @@ npm run tauri dev
 npm run tauri build
 ```
 编译完成后，安装包将位于 `src-tauri/target/release/bundle/` 目录下的对应操作系统文件夹中（Windows 通常在 `nsis` 文件夹内）。
+
+### 5. 打包 Android APK
+```bash
+# 需要安装 Android SDK + NDK，配置 ANDROID_HOME 和 JAVA_HOME
+npm run tauri android init   # 首次需要初始化
+npm run tauri android build  # 输出 APK 到 src-tauri/gen/android/app/build/outputs/apk/
+```

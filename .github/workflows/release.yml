@@ -44,6 +44,6 @@ jobs:
         with:
           tagName: ${{ github.ref_name }} # 自动读取你打的标签名，例如 v1.0.1
           releaseName: 'ValoCompAnalyser ${{ github.ref_name }}'
-          releaseBody: '自动打包的最新版本。请从下方 Assets 中下载对应系统的安装包。'
+          releaseBody: '自动打包的最新版本。请从下方 Assets 中下载对应系统的安装包。Android 版本需自行通过 `npm run tauri android build` 构建。'
           releaseDraft: true # 生成草稿（Draft），打包完不会立刻公开，让你能先检查一下
           prerelease: false

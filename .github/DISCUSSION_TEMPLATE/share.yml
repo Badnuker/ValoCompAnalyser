@@ -13,9 +13,9 @@ body:
     validations:
       required: true
   - type: textarea
-    id: json_upload
+    id: config_code
     attributes:
-      label: 📁 配置文件上传
-      description: 请将你导出的 `.json` 配置文件直接拖拽或粘贴到下方文本框中（GitHub 会自动生成下载链接）。
+      label: "📋 配置码"
+      description: "请粘贴从应用中导出的配置码（点击导出按钮自动复制到剪贴板）"
     validations:
       required: true
