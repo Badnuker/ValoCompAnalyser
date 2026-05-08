@@ -40,6 +40,13 @@ export default {
         confirm_reset_config: "Dangerous action ⚠️\nThis will clear all your custom tags and changes and restore the initial default state. Continue?",
         alert_export_clipboard: "Config copied to clipboard!\nPaste it somewhere safe to keep.",
         prompt_import_code: "Please paste the exported config code:",
+        btn_ok: "OK",
+        log_export_error: "Export error",
+        log_import_error: "Import error",
+        log_toggle_failed: "Failed to toggle tag state",
+        log_add_tag_failed: "Failed to add tag",
+        log_delete_tag_failed: "Failed to delete tag",
+        log_save_agent_failed: "Failed to save agent tags",
     },
     tags: {
         t_duelist: "Duelist",

@@ -28,7 +28,7 @@ const toggleKey = async (tag: Tag) => {
         await invoke('toggle_tag_key', { id: tag.id });
         tag.is_key = !tag.is_key;
     } catch (error) {
-        console.error("切换失败:", error);
+        console.error(t('ui.log_toggle_failed'), error);
         alert(t('ui.alert_toggle_failed'));
     }
 };
@@ -45,7 +45,7 @@ const addNewTag = async () => {
         newTagName.value = '';
         newTagIsKey.value = false;
     } catch (error) {
-        console.error("添加失败:", error);
+        console.error(t('ui.log_add_tag_failed'), error);
         alert(t('ui.alert_add_tag_failed'));
     }
 };
@@ -60,7 +60,7 @@ const removeTag = async (id: string) => {
         // 前端同步移除
         tags.value = tags.value.filter(t => t.id !== id);
     } catch (error) {
-        console.error("删除失败:", error);
+        console.error(t('ui.log_delete_tag_failed'), error);
         alert(t('ui.alert_delete_tag_failed'));
     }
 };

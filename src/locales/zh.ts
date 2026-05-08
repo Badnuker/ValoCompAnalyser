@@ -40,6 +40,13 @@ export default {
         confirm_reset_config: "危险操作 ⚠️\n这将会清除你所有的自定义标签和改动，恢复到初始默认状态。确定要继续吗？",
         alert_export_clipboard: "配置已复制到剪贴板！\n粘贴到安全的地方保存。",
         prompt_import_code: "请粘贴之前导出的配置代码：",
+        btn_ok: "确定",
+        log_export_error: "导出错误",
+        log_import_error: "导入错误",
+        log_toggle_failed: "切换标签状态失败",
+        log_add_tag_failed: "添加标签失败",
+        log_delete_tag_failed: "删除标签失败",
+        log_save_agent_failed: "保存角色标签失败",
     },
     tags: {
         t_duelist: "决斗",

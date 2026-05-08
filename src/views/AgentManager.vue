@@ -54,7 +54,7 @@ const saveAgentTags = async () => {
         editingAgent.value.tags = [...tempTags.value];
         editingAgent.value = null; // 关闭弹窗
     } catch (error) {
-        console.error("保存失败:", error);
+        console.error(t('ui.log_save_agent_failed'), error);
         alert(t('ui.alert_save_agent_failed'));
     }
 };
