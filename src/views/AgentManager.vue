@@ -104,63 +104,55 @@ const saveAgentTags = async () => {
 
 <style scoped>
 .tip-text {
-    color: #888;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
+    color: var(--color-text-secondary, #888);
+    font-size: clamp(0.8rem, 0.8vw + 0.3rem, 0.9rem);
+    margin-bottom: clamp(10px, 1.2vw, 15px);
 }
 
-/* 网格与卡片样式 (与之前相同) */
+/* ===== 角色卡片网格 ===== */
 .agent-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-}
-
-@media (max-width: 768px) {
-    .agent-grid {
-        grid-template-columns: repeat(auto-fill, minmax(132px, 1fr));
-    }
-}
-
-@media (max-width: 500px) {
-    .agent-grid {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 10px;
-    }
+    grid-template-columns: repeat(auto-fill, minmax(clamp(75px, 7vw, 100px), 1fr));
+    gap: clamp(6px, 0.8vw, 10px);
 }
 
 .agent-card {
     background: #fdfdfd;
     border: 1px solid #eee;
-    border-radius: 8px;
+    border-radius: clamp(6px, 0.6vw, 8px);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: box-shadow 0.2s;
     cursor: pointer;
 }
 
 .agent-card:hover {
-    transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-color: #ff4655;
+    border-color: var(--color-accent, #ff4655);
 }
 
 .avatar-container {
     width: 100%;
+    padding: clamp(2px, 0.3vw, 4px);
+    padding-bottom: 0;
+    box-sizing: border-box;
     aspect-ratio: 1 / 1;
     background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .avatar-img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 
 .agent-info {
-    padding: 10px;
+    padding: clamp(4px, 0.4vw, 6px);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -169,58 +161,62 @@ const saveAgentTags = async () => {
 }
 
 .agent-name {
-    font-size: 0.9rem;
+    font-size: clamp(0.72rem, 0.65vw + 0.3rem, 0.8rem);
     font-weight: bold;
-    margin-bottom: 8px;
-    color: #333;
+    margin-bottom: clamp(3px, 0.3vw, 4px);
+    color: var(--color-text, #333);
     word-break: break-word;
 }
 
 .agent-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px;
+    gap: clamp(2px, 0.3vw, 4px);
     justify-content: center;
 }
 
 .agent-tag-id {
-    font-size: 0.7rem;
+    font-size: clamp(0.65rem, 0.55vw + 0.3rem, 0.7rem);
     background: #f0f0f0;
-    padding: 2px 6px;
+    padding: 2px 5px;
     border-radius: 4px;
     color: #666;
 }
 
-/* 弹窗样式 */
+/* ===== 标签编辑弹窗 ===== */
 .modal-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset: 0;
     background: rgba(0, 0, 0, 0.6);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 100;
+    padding: clamp(8px, 2vw, 16px);
+    padding-top: calc(clamp(8px, 2vw, 16px) + var(--status-bar-top, 0px));
+    padding-bottom: calc(clamp(8px, 2vw, 16px) + var(--nav-safe-bottom, 0px));
 }
 
 .modal-content {
     background: white;
-    padding: 20px;
-    border-radius: 12px;
-    width: 90%;
-    max-width: 450px;
-    max-height: 85vh;
+    padding: clamp(14px, 1.6vw, 20px);
+    border-radius: clamp(8px, 1vw, 12px);
+    width: min(94vw, 450px);
+    max-height: calc(85vh - var(--status-bar-top, 0px) - var(--nav-safe-bottom, 0px));
     display: flex;
     flex-direction: column;
+}
+
+.modal-content h3 {
+    font-size: clamp(0.95rem, 0.9vw + 0.4rem, 1.1rem);
+    margin: 0 0 clamp(6px, 0.8vw, 10px) 0;
 }
 
 .tag-selector {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    margin: 12px 0 16px;
+    gap: clamp(6px, 0.8vw, 10px);
+    margin: clamp(8px, 1vw, 12px) 0 clamp(10px, 1.2vw, 16px);
     overflow-y: auto;
     max-height: min(46vh, 320px);
     padding-right: 4px;
@@ -241,45 +237,46 @@ const saveAgentTags = async () => {
 }
 
 .tag-option {
-    padding: 6px 12px;
+    padding: clamp(5px, 0.5vw, 6px) clamp(10px, 1vw, 12px);
     border: 1px solid #ddd;
     border-radius: 20px;
-    font-size: 0.85rem;
+    font-size: clamp(0.78rem, 0.7vw + 0.3rem, 0.85rem);
     cursor: pointer;
     transition: 0.2s;
     user-select: none;
 }
 
 .tag-option:hover {
-    border-color: #ff4655;
+    border-color: var(--color-accent, #ff4655);
 }
 
 .tag-option.is-selected {
-    background-color: #ff4655;
+    background-color: var(--color-accent, #ff4655);
     color: white;
-    border-color: #ff4655;
+    border-color: var(--color-accent, #ff4655);
 }
 
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 10px;
+    gap: clamp(6px, 0.8vw, 10px);
     margin-top: auto;
-    padding-top: 8px;
+    padding-top: clamp(6px, 0.6vw, 8px);
 }
 
 .btn-cancel,
 .btn-save {
-    padding: 8px 16px;
+    padding: clamp(8px, 0.8vw, 10px) clamp(12px, 1.2vw, 16px);
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-weight: bold;
+    font-size: clamp(0.85rem, 0.8vw + 0.3rem, 1rem);
 }
 
 .btn-cancel {
     background: #eee;
-    color: #333;
+    color: var(--color-text, #333);
 }
 
 .btn-cancel:hover {
@@ -287,34 +284,15 @@ const saveAgentTags = async () => {
 }
 
 .btn-save {
-    background: #333;
+    background: var(--color-text, #333);
     color: white;
 }
 
 .btn-save:hover {
-    background: #ff4655;
+    background: var(--color-accent, #ff4655);
 }
 
 @media (max-width: 560px) {
-    .agent-info {
-        padding: 8px;
-    }
-
-    .agent-name {
-        font-size: 0.82rem;
-        margin-bottom: 6px;
-    }
-
-    .agent-tag-id {
-        font-size: 0.68rem;
-    }
-
-    .modal-content {
-        width: 94%;
-        padding: 14px;
-        border-radius: 10px;
-    }
-
     .modal-actions {
         gap: 8px;
     }
@@ -322,7 +300,6 @@ const saveAgentTags = async () => {
     .btn-cancel,
     .btn-save {
         flex: 1;
-        padding: 10px 12px;
     }
 }
 </style>

@@ -50,14 +50,10 @@ const addNewTag = async () => {
     }
 };
 
-// 新增：删除标签逻辑
 const removeTag = async (id: string) => {
-    // 加一个确认弹窗防误触
     if (!confirm(t('ui.confirm_delete_tag'))) return;
-
     try {
         await invoke('delete_tag', { id });
-        // 前端同步移除
         tags.value = tags.value.filter(t => t.id !== id);
     } catch (error) {
         console.error(t('ui.log_delete_tag_failed'), error);
@@ -83,13 +79,11 @@ const removeTag = async (id: string) => {
         <div class="tag-list">
             <div v-for="tag in tags" :key="tag.id" class="tag-item">
                 <span class="tag-name">{{ getTagName(tag) }}</span>
-
                 <div class="actions">
                     <button class="badge-btn" :class="tag.is_key ? 'key-badge' : 'normal-badge'" @click="toggleKey(tag)"
                         :title="$t('ui.title_toggle_tag')">
                         {{ tag.is_key ? $t('ui.key_short') : $t('ui.normal_short') }}
                     </button>
-                    <!-- 新增删除按钮 -->
                     <button class="delete-btn" @click="removeTag(tag.id)" :title="$t('ui.title_delete_tag')">×</button>
                 </div>
             </div>
@@ -98,26 +92,30 @@ const removeTag = async (id: string) => {
 </template>
 
 <style scoped>
+/* ===== 添加标签面板 ===== */
 .add-tag-panel {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: clamp(8px, 1.2vw, 15px);
     background: #fdfdfd;
-    padding: 15px;
-    border-radius: 8px;
+    padding: clamp(10px, 1.2vw, 15px);
+    border-radius: clamp(6px, 0.6vw, 8px);
     border: 1px solid #ddd;
+    flex-wrap: wrap;
 }
 
 .input-name {
     flex: 1;
-    padding: 8px 12px;
+    min-width: 120px;
+    padding: clamp(6px, 0.6vw, 8px) clamp(10px, 1vw, 12px);
     border: 1px solid #ccc;
     border-radius: 4px;
     outline: none;
+    font-size: clamp(0.85rem, 0.8vw + 0.3rem, 1rem);
 }
 
 .input-name:focus {
-    border-color: #ff4655;
+    border-color: var(--color-accent, #ff4655);
 }
 
 .checkbox-label {
@@ -125,40 +123,45 @@ const removeTag = async (id: string) => {
     align-items: center;
     gap: 5px;
     cursor: pointer;
-    font-size: 0.9rem;
+    font-size: clamp(0.82rem, 0.8vw + 0.3rem, 0.9rem);
+    white-space: nowrap;
 }
 
 .btn-add {
-    padding: 8px 20px;
-    background-color: #333;
+    padding: clamp(7px, 0.6vw, 8px) clamp(16px, 1.6vw, 20px);
+    background-color: var(--color-text, #333);
     color: white;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
     transition: 0.2s;
+    font-size: clamp(0.85rem, 0.8vw + 0.3rem, 1rem);
+    white-space: nowrap;
 }
 
 .btn-add:hover {
-    background-color: #ff4655;
+    background-color: var(--color-accent, #ff4655);
 }
 
+/* ===== 标签列表 ===== */
 .tag-list {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
+    gap: clamp(8px, 0.8vw, 10px);
+    margin-top: clamp(12px, 1.6vw, 20px);
 }
 
 .tag-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 12px 16px;
+    padding: clamp(10px, 1vw, 12px) clamp(12px, 1.4vw, 16px);
     background: #f9f9f9;
-    border-radius: 8px;
+    border-radius: clamp(6px, 0.6vw, 8px);
     border: 1px solid #eee;
     transition: 0.2s;
+    gap: clamp(6px, 1vw, 12px);
 }
 
 .tag-item:hover {
@@ -167,24 +170,27 @@ const removeTag = async (id: string) => {
 
 .tag-name {
     font-weight: 600;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 0.8vw + 0.4rem, 1rem);
+    word-break: break-word;
 }
 
 .actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: clamp(6px, 0.8vw, 10px);
+    flex-shrink: 0;
 }
 
 .badge-btn {
-    font-size: 0.8rem;
-    padding: 4px 12px;
+    font-size: clamp(0.72rem, 0.65vw + 0.3rem, 0.8rem);
+    padding: clamp(3px, 0.3vw, 4px) clamp(10px, 1vw, 12px);
     border-radius: 12px;
     font-weight: bold;
     border: none;
     cursor: pointer;
     transition: 0.2s;
     user-select: none;
+    white-space: nowrap;
 }
 
 .badge-btn:hover {
@@ -197,21 +203,21 @@ const removeTag = async (id: string) => {
 }
 
 .key-badge {
-    background-color: #ff4655;
+    background-color: var(--color-accent, #ff4655);
     color: white;
 }
 
 .normal-badge {
     background-color: #ccc;
-    color: #333;
+    color: var(--color-text, #333);
 }
 
-/* 删除按钮样式 */
+/* ===== 删除按钮 ===== */
 .delete-btn {
     background: none;
     border: none;
     color: #999;
-    font-size: 1.5rem;
+    font-size: clamp(1.3rem, 1.2vw + 0.5rem, 1.5rem);
     line-height: 1;
     cursor: pointer;
     padding: 0 5px;
@@ -220,7 +226,27 @@ const removeTag = async (id: string) => {
 }
 
 .delete-btn:hover {
-    color: #ff4655;
+    color: var(--color-accent, #ff4655);
     background: #ffeeee;
+}
+
+/* ===== 手机竖屏 ===== */
+@media (max-width: 480px) {
+    .add-tag-panel {
+        gap: 8px;
+    }
+
+    .input-name {
+        min-width: 100%;
+        flex-basis: 100%;
+    }
+
+    .checkbox-label {
+        flex: 1;
+    }
+
+    .btn-add {
+        flex: 1;
+    }
 }
 </style>
