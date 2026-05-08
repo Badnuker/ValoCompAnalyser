@@ -12,10 +12,8 @@ jobs:
       contents: write # 允许脚本创建 Release 和上传文件
     strategy:
       fail-fast: true
-      matrix:
-        platform: [windows-latest, ubuntu-22.04]
 
-    runs-on: ${{ matrix.platform }}
+    runs-on: windows-latest
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
@@ -27,12 +25,6 @@ jobs:
 
       - name: 配置 Rust
         uses: dtolnay/rust-toolchain@stable
-
-      - name: 安装 Linux 环境依赖 (仅 Linux 需要)
-        if: matrix.platform == 'ubuntu-22.04'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf zstd
 
       - name: 安装前端依赖
         run: npm install
@@ -48,61 +40,6 @@ jobs:
             | 平台 | 安装方式 |
             | :--: | -------- |
             | Windows | 下载 `.msi` 或 `.exe` 双击安装 |
-            | Ubuntu / Debian | 下载 `.deb`，`sudo dpkg -i <包名>.deb` |
-            | Arch Linux | 下载 `.pkg.tar.zst`，`sudo pacman -U <包名>` |
-            | 其他 Linux | 下载 `.AppImage`，先装 `libfuse2`，再 `chmod +x` 运行 |
             | Android | 下载 APK 直装 |
           releaseDraft: true
           prerelease: false
-
-      # ===== Arch Linux 打包 (.pkg.tar.zst) =====
-      - name: 生成 Arch Linux 包 (.pkg.tar.zst)
-        if: matrix.platform == 'ubuntu-22.04'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -e
-          PKGNAME="valo-comp-analyser"
-          VERSION="${{ github.ref_name }}"
-          BIN="src-tauri/target/release/bundle/deb/${PKGNAME}*_${VERSION#v}_amd64/data/usr/bin/${PKGNAME}"
-          if [ ! -f "$BIN" ]; then
-            BIN="src-tauri/target/release/${PKGNAME}"
-          fi
-
-          mkdir -p pkg/usr/bin
-          mkdir -p pkg/usr/share/applications
-          mkdir -p pkg/usr/share/icons/hicolor/128x128/apps
-          mkdir -p pkg/usr/share/icons/hicolor/256x256/apps
-
-          cp "$BIN" pkg/usr/bin/${PKGNAME}
-          chmod 755 pkg/usr/bin/${PKGNAME}
-
-          cat > pkg/usr/share/applications/${PKGNAME}.desktop << 'DESKTOP'
-          [Desktop Entry]
-          Name=ValoCompAnalyser
-          Name[zh_CN]=无畏契约阵容分析器
-          Comment=Valorant composition analyser
-          Comment[zh_CN]=无畏契约阵容分析器
-          Exec=/usr/bin/valo-comp-analyser
-          Icon=valo-comp-analyser
-          Terminal=false
-          Type=Application
-          Categories=Game;Utility;
-          DESKTOP
-
-          mkdir -p pkg/usr/share/icons/hicolor/128x128/apps
-          mkdir -p pkg/usr/share/icons/hicolor/256x256/apps
-
-          # 桌面图标（两个尺寸）
-          cp src-tauri/icons/128x128.png pkg/usr/share/icons/hicolor/128x128/apps/${PKGNAME}.png
-          cp src-tauri/icons/128x128.png pkg/usr/share/icons/hicolor/256x256/apps/${PKGNAME}.png
-
-          # 用 zstd 打包 (Arch 标准格式)
-          PKGFILE="${PKGNAME}-${VERSION#v}-1-x86_64"
-          tar -cf "${PKGFILE}.pkg.tar" -C pkg .
-          zstd -19 "${PKGFILE}.pkg.tar" -o "${PKGFILE}.pkg.tar.zst"
-          rm -f "${PKGFILE}.pkg.tar"
-
-          gh release upload "${{ github.ref_name }}" \
-            ${PKGFILE}.pkg.tar.zst \
-            --repo "${{ github.repository }}"
