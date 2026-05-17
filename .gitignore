@@ -16,6 +16,7 @@ dist-ssr
 src-tauri/gen/android/keystore.properties
 
 CLAUDE.md
+.claude/
 
 # Editor directories and files
 .vscode/*
