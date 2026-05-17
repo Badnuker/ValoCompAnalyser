@@ -74,7 +74,11 @@ const resetConfig = async () => {
     </nav>
 
     <main class="main-content">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <KeepAlive>
+          <component :is="Component" />
+        </KeepAlive>
+      </router-view>
     </main>
 
     <div v-if="showImportModal" class="modal-overlay" @click.self="showImportModal = false">

@@ -95,7 +95,7 @@ const selectorColumns = computed(() => {
                 :class="{ 'is-filled': agent }" @click="!agent && openSelector(index)"
                 @contextmenu.prevent="agent && removeAgent(index)">
                 <template v-if="agent">
-                    <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" />
+                    <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" loading="lazy" />
                 </template>
                 <template v-else>
                     <div class="slot-empty">+</div>
@@ -144,7 +144,7 @@ const selectorColumns = computed(() => {
                 <div class="agent-grid" :style="{ gridTemplateColumns: `repeat(${selectorColumns}, minmax(0, 1fr))` }">
                     <div v-for="agent in allAgents" :key="agent.id" class="selector-card"
                         :class="{ 'is-disabled': isAgentSelected(agent) }" @click="selectAgent(agent)">
-                        <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" />
+                        <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" loading="lazy" />
                     </div>
                 </div>
                 <button class="close-btn" @click="showSelector = false">{{ $t('ui.btn_cancel') }}</button>

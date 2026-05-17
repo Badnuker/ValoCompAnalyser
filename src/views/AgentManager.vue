@@ -68,7 +68,7 @@ const saveAgentTags = async () => {
         <div class="agent-grid">
             <div v-for="agent in agents" :key="agent.id" class="agent-card" @click="openEditModal(agent)">
                 <div class="avatar-container">
-                    <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" />
+                    <img :src="agent.avatar_url" :alt="agent.name" class="avatar-img" loading="lazy" />
                 </div>
                 <div class="agent-info">
                     <div class="agent-name">{{ $t(`agents.${agent.id}`) }}</div>
