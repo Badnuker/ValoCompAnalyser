@@ -39,7 +39,17 @@ jobs:
           releaseBody: |
             | 平台 | 安装方式 |
             | :--: | -------- |
-            | Windows | 下载 `.msi` 或 `.exe` 双击安装 |
+            | Windows | 下载 `_portable.zip` 解压即用，或下载 `.exe` 安装程序 |
             | Android | 下载 APK 直装 |
           releaseDraft: true
           prerelease: false
+
+      - name: 打包便携版 ZIP
+        run: node scripts/package-portable.mjs
+
+      - name: 上传便携版 ZIP 到 Release
+        run: |
+          $zip = Get-ChildItem -Path . -Filter "*_portable.zip" | Select-Object -First 1
+          gh release upload ${{ github.ref_name }} "$zip" --clobber
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

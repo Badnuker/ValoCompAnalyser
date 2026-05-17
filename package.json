@@ -7,7 +7,10 @@
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "posttauri": "node scripts/package-portable.mjs",
+    "build:portable": "npm run tauri build && node scripts/package-portable.mjs",
+    "package:portable": "node scripts/package-portable.mjs"
   },
   "dependencies": {
     "@tauri-apps/api": "^2",
