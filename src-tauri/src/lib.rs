@@ -271,7 +271,7 @@ pub fn run() {
         .plugin(tauri_plugin_clipboard_manager::init())
         .setup(|app| {
             let window = app.get_webview_window("main").unwrap();
-            let _ = window.set_title("无畏契约阵容分析器");
+            let _ = window.set_title("Valorant Composition Analyser");
             if let Ok(Some(monitor)) = window.primary_monitor() {
                 let size = monitor.size();
                 let scale_factor = monitor.scale_factor();

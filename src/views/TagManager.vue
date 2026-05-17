@@ -11,12 +11,8 @@ const newTagName = ref('');
 const newTagIsKey = ref(false);
 
 onMounted(async () => {
-    await fetchTags();
-});
-
-const fetchTags = async () => {
     tags.value = await invoke<Tag[]>('get_tags');
-};
+});
 
 const getTagName = (tag: Tag) => {
     const i18nKey = `tags.${tag.id}`;

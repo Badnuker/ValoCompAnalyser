@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n';
-import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 
 const { locale, t } = useI18n({ useScope: 'global' });
 
@@ -35,10 +35,6 @@ function selectLocale(code: string) {
     try { localStorage.setItem('locale', val); } catch (e) { }
     open.value = false;
 }
-
-watch(locale, (val) => {
-    try { localStorage.setItem('locale', val); } catch (e) { }
-});
 
 function onDocClick(e: MouseEvent) {
     const el = rootRef.value;
